@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<div class="registro-container">
+  <h2>Registro</h2>
+  <form hx-post="/agregar" hx-target="#tabla-usuarios" hx-swap="outerHTML" hx-on="afterRequest: this.reset()">
+    <input type="text" name="nombre" placeholder="Nombre" required>
+    <input type="email" name="correo" placeholder="Correo electronico" required>
+    <button type="submit" class="boton-agregar">Agregar</button>
+  </form>
+
+  <hr>
+
+  <div id="tabla-usuarios">
+    {% include "_tabla_usuarios.html" %}
+  </div>
+</div>
+{% endblock %}
