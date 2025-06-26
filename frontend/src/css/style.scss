@@ -1,15 +1,14 @@
-
 /*
 instalar sass:
 npm install -g sass
 
 Comando para compilar el archivo scss a css:
-sass --watch TodoListManuelDiaz/styles/style.scss:TodoListManuelDiaz/styles/style.css
+sass --watch frontend/src/css/style.scss:frontend/src/css/style.css
 */
 
 @font-face {
     font-family: "Open Sans";
-    src: url("../assets/OpenSans.ttf");
+    src: url("../../public/assets/fonts/OpenSans.ttf");
 }
 
 * {
@@ -32,6 +31,8 @@ sass --watch TodoListManuelDiaz/styles/style.scss:TodoListManuelDiaz/styles/styl
 }
 
 .tab {
+
+    
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -54,20 +55,28 @@ sass --watch TodoListManuelDiaz/styles/style.scss:TodoListManuelDiaz/styles/styl
     }
   }
 
-  img {
+  .close-icon {
+            content: url('../../public/assets/images/close.png');
     background-color: #242424;
     margin-left: 10px;
     width: 15px;
     height: 15px;
 
     &:active {
+                content: url('../../public/assets/images/closeActive.png');
       width: 13px;
       height: 13px;
+    }
+
+    &:hover {
+      cursor: pointer;
+        content: url('../../public/assets/images/closeActive.png');
     }
   }
 
   &:hover {
     cursor: pointer;
+    
   }
 }
 
@@ -101,6 +110,7 @@ sass --watch TodoListManuelDiaz/styles/style.scss:TodoListManuelDiaz/styles/styl
 .todoContainer{
     display: flex;
     flex-direction: column;
+    margin-bottom: 100px;
 
     .task{
         display: flex;
@@ -149,7 +159,7 @@ sass --watch TodoListManuelDiaz/styles/style.scss:TodoListManuelDiaz/styles/styl
                 background-color: #fff;
             }
     
-            #deleteTask{
+            #deleteTask { // Cambiado de #deleteTask a .deleteTask
                 width: 30px;
                 height: 30px;
                 flex-direction: row;
