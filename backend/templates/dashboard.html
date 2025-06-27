@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block title %}Panel principal - Sistema de Gestión de Usuarios{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-tachometer-alt text-primary"></i> Panel principal
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-primary" onclick="refreshStats()">
+                <i class="fas fa-sync-alt"></i> Refrescar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Sección de bienvenida -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center py-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3 class="text-primary mb-2">
+                            <i class="fas fa-hand-wave"></i> ¡Bienvenido/a, Administrador/a!
+                        </h3>
+                        <p class="text-muted mb-0">Gestiona tus usuarios y aplicaciones desde este panel central.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <i class="fas fa-users-cog fa-4x text-primary opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tarjetas de estadísticas -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stats-card">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Usuarios totales</h5>
+                    <h2 id="totalUsers">0</h2>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-users fa-3x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stats-card success">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Administradores</h5>
+                    <h2 id="adminUsers">0</h2>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-user-shield fa-3x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stats-card info">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Aplicaciones</h5>
+                    <h2 id="totalApps">0</h2>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-desktop fa-3x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stats-card warning">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Sesiones activas</h5>
+                    <h2 id="activeSessions">0</h2>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-signal fa-3x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Acciones rápidas y estado del sistema -->
+<div class="row mb-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-bolt"></i> Acciones rápidas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <a href="/admin/users" class="btn btn-outline-primary w-100 py-3">
+                            <i class="fas fa-user-plus fa-2x mb-2"></i><br>
+                            <strong>Agregar usuario</strong><br>
+                            <small class="text-muted">Crear cuentas de usuario</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="/admin/apps" class="btn btn-outline-success w-100 py-3">
+                            <i class="fas fa-desktop fa-2x mb-2"></i><br>
+                            <strong>Agregar aplicación</strong><br>
+                            <small class="text-muted">Registrar aplicaciones</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="/admin/users" class="btn btn-outline-info w-100 py-3">
+                            <i class="fas fa-users fa-2x mb-2"></i><br>
+                            <strong>Gestionar usuarios</strong><br>
+                            <small class="text-muted">Ver y editar usuarios</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="/admin/apps" class="btn btn-outline-warning w-100 py-3">
+                            <i class="fas fa-cog fa-2x mb-2"></i><br>
+                            <strong>Gestionar aplicaciones</strong><br>
+                            <small class="text-muted">Configurar permisos</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar"></i> Estado del sistema
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold">Base de datos</span>
+                        <span class="badge bg-success">
+                            <i class="fas fa-check-circle"></i> En línea
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold">Servidor API</span>
+                        <span class="badge bg-success">
+                            <i class="fas fa-check-circle"></i> Activo
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold">Seguridad</span>
+                        <span class="badge bg-success">
+                            <i class="fas fa-shield-alt"></i> Activa
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold">Tiempo activo</span>
+                        <span class="text-muted" id="uptime">Cargando...</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold">Última actualización</span>
+                        <span class="text-muted" id="lastUpdated">Cargando...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Actividad reciente -->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-history"></i> Usuarios recientes
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentUsersTable">
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">
+                                    <i class="fas fa-spinner fa-spin"></i> Cargando usuarios...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-info-circle"></i> Información del sistema
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <strong>Versión:</strong> 2.0.0
+                </div>
+                <div class="mb-3">
+                    <strong>Servidor:</strong> FastAPI
+                </div>
+                <div class="mb-3">
+                    <strong>Base de datos:</strong> SQLite
+                </div>
+                <div class="mb-3">
+                    <strong>Aplicaciones por defecto:</strong> Notebook, MediaPlayer
+                </div>
+                <div class="mb-3">
+                    <strong>Seguridad:</strong> Autenticación JWT
+                </div>
+                <hr>
+                <div class="text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-heart text-danger"></i> 
+                        Sistema de Gestión de Usuarios v2.0
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Cargar datos del dashboard al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        loadDashboardData();
+        updateUptime();
+        setInterval(updateUptime, 1000);
+    });
+
+    async function loadDashboardData() {
+        try {
+            const token = localStorage.getItem('admin_token');
+            if (!token) {
+                window.location.href = '/admin';
+                return;
+            }
+
+            const response = await axios.get('/api/users', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            updateStats(response.data);
+            displayRecentUsers(response.data.slice(0, 5)); // Últimos 5 usuarios
+            
+            // Cargar cantidad de apps
+            const appsResponse = await axios.get('/api/apps', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            document.getElementById('totalApps').textContent = appsResponse.data.length;
+            
+        } catch (error) {
+            if (error.response?.status === 401) {
+                localStorage.removeItem('admin_token');
+                window.location.href = '/admin';
+            } else {
+                console.error('Error al cargar datos del panel:', error);
+                showAlert('Error al cargar datos del panel', 'danger');
+            }
+        }
+    }
+
+    function updateStats(users) {
+        const totalUsers = users.length;
+        const adminUsers = users.filter(u => u.is_admin).length;
+        
+        document.getElementById('totalUsers').textContent = totalUsers;
+        document.getElementById('adminUsers').textContent = adminUsers;
+        document.getElementById('activeSessions').textContent = Math.floor(Math.random() * 10) + 1; // Dato simulado
+    }
+
+    function displayRecentUsers(users) {
+        const tbody = document.getElementById('recentUsersTable');
+        tbody.innerHTML = '';
+        
+        if (users.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center text-muted">
+                        <i class="fas fa-users"></i> No hay usuarios
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        users.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <i class="fas fa-user text-primary"></i> 
+                    <strong>${user.username}</strong>
+                </td>
+                <td>
+                    ${user.is_admin ? 
+                        '<span class="badge bg-danger"><i class="fas fa-user-shield"></i> Admin</span>' : 
+                        '<span class="badge bg-secondary"><i class="fas fa-user"></i> Usuario</span>'
+                    }
+                </td>
+                <td>
+                    <span class="badge bg-success">
+                        <i class="fas fa-check-circle"></i> Activo
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary" onclick="editUser('${user.username}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function updateUptime() {
+        const now = new Date();
+        const startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+        const uptime = now - startTime;
+        
+        const hours = Math.floor(uptime / (1000 * 60 * 60));
+        const minutes = Math.floor((uptime % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((uptime % (1000 * 60)) / 1000);
+        
+        document.getElementById('uptime').textContent = `${hours}h ${minutes}m ${seconds}s`;
+        document.getElementById('lastUpdated').textContent = now.toLocaleTimeString();
+    }
+
+    function refreshStats() {
+        loadDashboardData();
+        showAlert('¡Estadísticas actualizadas!', 'success');
+    }
+
+    function editUser(username) {
+        window.location.href = `/admin/users?edit=${username}`;
+    }
+
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        const container = document.querySelector('.main-content');
+        container.insertBefore(alertDiv, container.firstChild);
+        
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 5000);
+    }
+</script>
+{% endblock %} 

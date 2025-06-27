@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de usuarios - Sistema de Gestión de Usuarios{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-users text-primary"></i> Gestión de usuarios
+    </h1>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <i class="fas fa-plus"></i> Agregar usuario
+    </button>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="stats-card">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Usuarios totales</h5>
+                    <h3 id="totalUsers">0</h3>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-users fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-card success">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Administradores</h5>
+                    <h3 id="adminUsers">0</h3>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-user-shield fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-card info">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Usuarios regulares</h5>
+                    <h3 id="regularUsers">0</h3>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-user fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-card warning">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Apps activas</h5>
+                    <h3 id="activeApps">0</h3>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-desktop fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Users Table -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="fas fa-list"></i> Lista de usuarios
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            <i class="fas fa-spinner fa-spin"></i> Cargando usuarios...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-plus"></i> Agregar usuario
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="mb-3">
+                        <label for="newUsername" class="form-label fw-semibold">
+                            <i class="fas fa-user"></i> Usuario
+                        </label>
+                        <input type="text" class="form-control" id="newUsername" required 
+                               placeholder="Introduce el usuario">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label fw-semibold">
+                            <i class="fas fa-lock"></i> Contraseña
+                        </label>
+                        <input type="password" class="form-control" id="newPassword" required 
+                               placeholder="Introduce la contraseña">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="isAdmin">
+                            <label class="form-check-label fw-semibold" for="isAdmin">
+                                <i class="fas fa-user-shield"></i> Privilegios de administrador
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" onclick="addUser()">
+                    <i class="fas fa-plus"></i> Agregar usuario
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-edit"></i> Editar usuario
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="editUsername">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            <i class="fas fa-user"></i> Usuario
+                        </label>
+                        <input type="text" class="form-control" id="editUsernameDisplay" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPassword" class="form-label fw-semibold">
+                            <i class="fas fa-lock"></i> Nueva contraseña
+                        </label>
+                        <input type="password" class="form-control" id="editPassword" required 
+                               placeholder="Introduce la nueva contraseña">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="editIsAdmin">
+                            <label class="form-check-label fw-semibold" for="editIsAdmin">
+                                <i class="fas fa-user-shield"></i> Privilegios de administrador
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" onclick="updateUser()">
+                    <i class="fas fa-save"></i> Actualizar usuario
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Load users on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadUsers();
+    });
+
+    async function loadUsers() {
+        try {
+            const token = localStorage.getItem('admin_token');
+            if (!token) {
+                window.location.href = '/admin';
+                return;
+            }
+
+            const response = await axios.get('/api/users', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            displayUsers(response.data);
+            updateStats(response.data);
+        } catch (error) {
+            if (error.response?.status === 401) {
+                localStorage.removeItem('admin_token');
+                window.location.href = '/admin';
+            } else {
+                showAlert('Error al cargar usuarios: ' + error.message, 'danger');
+            }
+        }
+    }
+
+    function displayUsers(users) {
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = '';
+        
+        if (users.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center text-muted">
+                        <i class="fas fa-users"></i> No hay usuarios
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        users.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <i class="fas fa-user text-primary"></i> 
+                    <strong>${user.username}</strong>
+                </td>
+                <td>
+                    ${user.is_admin ? 
+                        '<span class="badge bg-danger"><i class="fas fa-user-shield"></i> Admin</span>' : 
+                        '<span class="badge bg-secondary"><i class="fas fa-user"></i> Usuario</span>'
+                    }
+                </td>
+                <td>
+                    <span class="badge bg-success">
+                        <i class="fas fa-check-circle"></i> Activo
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editUser('${user.username}', ${user.is_admin})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteUser('${user.username}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function updateStats(users) {
+        const totalUsers = users.length;
+        const adminUsers = users.filter(u => u.is_admin).length;
+        const regularUsers = totalUsers - adminUsers;
+        
+        document.getElementById('totalUsers').textContent = totalUsers;
+        document.getElementById('adminUsers').textContent = adminUsers;
+        document.getElementById('regularUsers').textContent = regularUsers;
+        document.getElementById('activeApps').textContent = '2'; // Apps por defecto
+    }
+
+    async function addUser() {
+        const username = document.getElementById('newUsername').value;
+        const password = document.getElementById('newPassword').value;
+        const isAdmin = document.getElementById('isAdmin').checked;
+        
+        if (!username || !password) {
+            showAlert('Por favor, completa todos los campos', 'warning');
+            return;
+        }
+        
+        try {
+            const token = localStorage.getItem('admin_token');
+            await axios.post('/api/users', {
+                username: username,
+                password: password,
+                is_admin: isAdmin
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            // Close modal and reload
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
+            modal.hide();
+            document.getElementById('addUserForm').reset();
+            loadUsers();
+            
+            showAlert('¡Usuario creado exitosamente!', 'success');
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || error.message;
+            showAlert('Error al crear usuario: ' + errorMessage, 'danger');
+        }
+    }
+
+    function editUser(username, isAdmin) {
+        document.getElementById('editUsername').value = username;
+        document.getElementById('editUsernameDisplay').value = username;
+        document.getElementById('editIsAdmin').checked = isAdmin;
+        
+        const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+        modal.show();
+    }
+
+    async function updateUser() {
+        const username = document.getElementById('editUsername').value;
+        const password = document.getElementById('editPassword').value;
+        const isAdmin = document.getElementById('editIsAdmin').checked;
+        
+        if (!password) {
+            showAlert('Por favor, introduce una nueva contraseña', 'warning');
+            return;
+        }
+        
+        try {
+            const token = localStorage.getItem('admin_token');
+            await axios.put(`/api/users/${username}`, {
+                password: password,
+                is_admin: isAdmin
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            // Close modal and reload
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+            modal.hide();
+            document.getElementById('editUserForm').reset();
+            loadUsers();
+            
+            showAlert('¡Usuario actualizado exitosamente!', 'success');
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || error.message;
+            showAlert('Error al actualizar usuario: ' + errorMessage, 'danger');
+        }
+    }
+
+    async function deleteUser(username) {
+        if (!confirm(`¿Estás seguro de que deseas eliminar el usuario "${username}"? Esta acción no se puede deshacer.`)) {
+            return;
+        }
+        
+        try {
+            const token = localStorage.getItem('admin_token');
+            await axios.delete(`/api/users/${username}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            loadUsers();
+            showAlert('¡Usuario eliminado exitosamente!', 'success');
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || error.message;
+            showAlert('Error al eliminar usuario: ' + errorMessage, 'danger');
+        }
+    }
+
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        const container = document.querySelector('.main-content');
+        container.insertBefore(alertDiv, container.firstChild);
+        
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 5000);
+    }
+</script>
+{% endblock %} 

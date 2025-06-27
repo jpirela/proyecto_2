@@ -1,0 +1,569 @@
+{% extends "base.html" %}
+
+{% block title %}Gestión de aplicaciones - Sistema de Gestión de Usuarios{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="fas fa-desktop text-primary"></i> Gestión de aplicaciones
+    </h1>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAppModal">
+        <i class="fas fa-plus"></i> Agregar aplicación
+    </button>
+</div>
+
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="stats-card">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Total apps</h5>
+                    <h3 id="totalApps">0</h3>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-desktop fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-card success">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Disponibles</h5>
+                    <h3 id="availableApps">0</h3>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-check-circle fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-card danger">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Bloqueadas</h5>
+                    <h3 id="blockedApps">0</h3>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-ban fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stats-card info">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h5 class="card-title">Categorías</h5>
+                    <h3 id="categories">0</h3>
+                </div>
+                <div class="align-self-center">
+                    <i class="fas fa-tags fa-2x opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Apps Table -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">
+            <i class="fas fa-list"></i> Lista de aplicaciones
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Categoría</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="appsTableBody">
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">
+                            <i class="fas fa-spinner fa-spin"></i> Cargando aplicaciones...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add App Modal -->
+<div class="modal fade" id="addAppModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-desktop"></i> Agregar aplicación
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addAppForm">
+                    <div class="mb-3">
+                        <label for="newAppName" class="form-label fw-semibold">
+                            <i class="fas fa-tag"></i> Nombre de la app
+                        </label>
+                        <input type="text" class="form-control" id="newAppName" required 
+                               placeholder="Introduce el nombre de la app">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newAppDescription" class="form-label fw-semibold">
+                            <i class="fas fa-info-circle"></i> Descripción
+                        </label>
+                        <textarea class="form-control" id="newAppDescription" rows="3" 
+                                  placeholder="Introduce una descripción"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newAppPath" class="form-label fw-semibold">
+                            <i class="fas fa-file"></i> Ruta ejecutable
+                        </label>
+                        <input type="text" class="form-control" id="newAppPath" required 
+                               placeholder="Ej: notepad.exe">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newAppCategory" class="form-label fw-semibold">
+                            <i class="fas fa-folder"></i> Categoría
+                        </label>
+                        <select class="form-control" id="newAppCategory" required>
+                            <option value="">Selecciona una categoría</option>
+                            <option value="Productivity">Productividad</option>
+                            <option value="Media">Multimedia</option>
+                            <option value="Development">Desarrollo</option>
+                            <option value="Games">Juegos</option>
+                            <option value="Utilities">Utilidades</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="isBlocked">
+                            <label class="form-check-label fw-semibold" for="isBlocked">
+                                <i class="fas fa-ban"></i> Bloquear esta app (restringir acceso)
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" onclick="addApp()">
+                    <i class="fas fa-plus"></i> Agregar aplicación
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit App Modal -->
+<div class="modal fade" id="editAppModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-edit"></i> Editar aplicación
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editAppForm">
+                    <input type="hidden" id="editAppId">
+                    <div class="mb-3">
+                        <label for="editAppName" class="form-label fw-semibold">
+                            <i class="fas fa-tag"></i> Nombre de la app
+                        </label>
+                        <input type="text" class="form-control" id="editAppName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAppDescription" class="form-label fw-semibold">
+                            <i class="fas fa-info-circle"></i> Descripción
+                        </label>
+                        <textarea class="form-control" id="editAppDescription" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAppPath" class="form-label fw-semibold">
+                            <i class="fas fa-file"></i> Ruta ejecutable
+                        </label>
+                        <input type="text" class="form-control" id="editAppPath" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAppCategory" class="form-label fw-semibold">
+                            <i class="fas fa-folder"></i> Categoría
+                        </label>
+                        <select class="form-control" id="editAppCategory" required>
+                            <option value="Productivity">Productividad</option>
+                            <option value="Media">Multimedia</option>
+                            <option value="Development">Desarrollo</option>
+                            <option value="Games">Juegos</option>
+                            <option value="Utilities">Utilidades</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="editIsBlocked">
+                            <label class="form-check-label fw-semibold" for="editIsBlocked">
+                                <i class="fas fa-ban"></i> Bloquear esta app (restringir acceso)
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" onclick="updateApp()">
+                    <i class="fas fa-save"></i> Actualizar aplicación
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Permissions Modal -->
+<div class="modal fade" id="permissionsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-key"></i> Gestionar permisos
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="permissionsContent">
+                    <div class="text-center">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando permisos...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Load apps on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        loadApps();
+    });
+
+    async function loadApps() {
+        try {
+            const token = localStorage.getItem('admin_token');
+            if (!token) {
+                window.location.href = '/admin';
+                return;
+            }
+
+            const response = await axios.get('/api/apps', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            displayApps(response.data);
+            updateStats(response.data);
+        } catch (error) {
+            if (error.response?.status === 401) {
+                localStorage.removeItem('admin_token');
+                window.location.href = '/admin';
+            } else {
+                showAlert('Error al cargar aplicaciones: ' + error.message, 'danger');
+            }
+        }
+    }
+
+    function displayApps(apps) {
+        const tbody = document.getElementById('appsTableBody');
+        tbody.innerHTML = '';
+        
+        if (apps.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center text-muted">
+                        <i class="fas fa-desktop"></i> No hay aplicaciones
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        apps.forEach(app => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <i class="fas fa-desktop text-primary"></i> 
+                    <strong>${app.name}</strong>
+                </td>
+                <td>${app.description || 'Sin descripción'}</td>
+                <td>
+                    <span class="badge bg-info">
+                        <i class="fas fa-folder"></i> ${app.category}
+                    </span>
+                </td>
+                <td>
+                    ${app.is_blocked ? 
+                        '<span class="badge bg-danger"><i class="fas fa-ban"></i> Bloqueada</span>' : 
+                        '<span class="badge bg-success"><i class="fas fa-check-circle"></i> Disponible</span>'
+                    }
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editApp(${app.id}, '${app.name}', '${app.description}', '${app.exec_path}', '${app.category}', ${app.is_blocked})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-info me-1" onclick="managePermissions(${app.id})">
+                        <i class="fas fa-key"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteApp(${app.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function updateStats(apps) {
+        const totalApps = apps.length;
+        const availableApps = apps.filter(a => !a.is_blocked).length;
+        const blockedApps = apps.filter(a => a.is_blocked).length;
+        const categories = [...new Set(apps.map(a => a.category))].length;
+        
+        document.getElementById('totalApps').textContent = totalApps;
+        document.getElementById('availableApps').textContent = availableApps;
+        document.getElementById('blockedApps').textContent = blockedApps;
+        document.getElementById('categories').textContent = categories;
+    }
+
+    async function addApp() {
+        const name = document.getElementById('newAppName').value;
+        const description = document.getElementById('newAppDescription').value;
+        const execPath = document.getElementById('newAppPath').value;
+        const category = document.getElementById('newAppCategory').value;
+        const isBlocked = document.getElementById('isBlocked').checked;
+        
+        if (!name || !execPath || !category) {
+            showAlert('Por favor, completa todos los campos obligatorios', 'warning');
+            return;
+        }
+        
+        try {
+            const token = localStorage.getItem('admin_token');
+            await axios.post('/api/apps', {
+                name: name,
+                description: description,
+                exec_path: execPath,
+                category: category,
+                is_blocked: isBlocked
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            // Close modal and reload
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addAppModal'));
+            modal.hide();
+            document.getElementById('addAppForm').reset();
+            loadApps();
+            
+            showAlert('¡Aplicación creada exitosamente!', 'success');
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || error.message;
+            showAlert('Error al crear aplicación: ' + errorMessage, 'danger');
+        }
+    }
+
+    function editApp(id, name, description, execPath, category, isBlocked) {
+        document.getElementById('editAppId').value = id;
+        document.getElementById('editAppName').value = name;
+        document.getElementById('editAppDescription').value = description;
+        document.getElementById('editAppPath').value = execPath;
+        document.getElementById('editAppCategory').value = category;
+        document.getElementById('editIsBlocked').checked = isBlocked;
+        
+        const modal = new bootstrap.Modal(document.getElementById('editAppModal'));
+        modal.show();
+    }
+
+    async function updateApp() {
+        const id = document.getElementById('editAppId').value;
+        const name = document.getElementById('editAppName').value;
+        const description = document.getElementById('editAppDescription').value;
+        const execPath = document.getElementById('editAppPath').value;
+        const category = document.getElementById('editAppCategory').value;
+        const isBlocked = document.getElementById('editIsBlocked').checked;
+        
+        if (!name || !execPath || !category) {
+            showAlert('Por favor, completa todos los campos obligatorios', 'warning');
+            return;
+        }
+        
+        try {
+            const token = localStorage.getItem('admin_token');
+            await axios.put(`/api/apps/${id}`, {
+                name: name,
+                description: description,
+                exec_path: execPath,
+                category: category,
+                is_blocked: isBlocked
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            // Close modal and reload
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editAppModal'));
+            modal.hide();
+            document.getElementById('editAppForm').reset();
+            loadApps();
+            
+            showAlert('¡Aplicación actualizada exitosamente!', 'success');
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || error.message;
+            showAlert('Error al actualizar aplicación: ' + errorMessage, 'danger');
+        }
+    }
+
+    async function deleteApp(id) {
+        if (!confirm('¿Estás seguro de que deseas eliminar esta aplicación? Esta acción no se puede deshacer.')) {
+            return;
+        }
+        
+        try {
+            const token = localStorage.getItem('admin_token');
+            await axios.delete(`/api/apps/${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            loadApps();
+            showAlert('¡Aplicación eliminada exitosamente!', 'success');
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || error.message;
+            showAlert('Error al eliminar aplicación: ' + errorMessage, 'danger');
+        }
+    }
+
+    async function managePermissions(appId) {
+        try {
+            const token = localStorage.getItem('admin_token');
+            const response = await axios.get(`/api/apps/${appId}/permissions`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            displayPermissions(response.data);
+            const modal = new bootstrap.Modal(document.getElementById('permissionsModal'));
+            modal.show();
+        } catch (error) {
+            showAlert('Error al cargar permisos: ' + error.message, 'danger');
+        }
+    }
+
+    function displayPermissions(data) {
+        const content = document.getElementById('permissionsContent');
+        content.innerHTML = `
+            <h6 class="mb-3">
+                <i class="fas fa-desktop"></i> ${data.app_name}
+            </h6>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Rol</th>
+                            <th>Permiso</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.users.map(user => `
+                            <tr>
+                                <td>
+                                    <i class="fas fa-user"></i> ${user.username}
+                                </td>
+                                <td>
+                                    ${user.is_admin ? 
+                                        '<span class="badge bg-danger">Admin</span>' : 
+                                        '<span class="badge bg-secondary">Usuario</span>'
+                                    }
+                                </td>
+                                <td>
+                                    ${user.has_permission ? 
+                                        '<span class="badge bg-success">Concedido</span>' : 
+                                        '<span class="badge bg-warning">No concedido</span>'
+                                    }
+                                </td>
+                                <td>
+                                    ${user.has_permission ? 
+                                        `<button class="btn btn-sm btn-outline-danger" onclick="revokePermission(${data.app_id}, '${user.username}')">
+                                            <i class="fas fa-times"></i> Revocar
+                                        </button>` :
+                                        `<button class="btn btn-sm btn-outline-success" onclick="grantPermission(${data.app_id}, '${user.username}')">
+                                            <i class="fas fa-check"></i> Conceder
+                                        </button>`
+                                    }
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    async function grantPermission(appId, username) {
+        try {
+            const token = localStorage.getItem('admin_token');
+            await axios.post(`/api/apps/${appId}/permissions/${username}`, {}, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            managePermissions(appId); // Refresh permissions
+            showAlert(`Permiso concedido a ${username}`, 'success');
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || error.message;
+            showAlert('Error al conceder permiso: ' + errorMessage, 'danger');
+        }
+    }
+
+    async function revokePermission(appId, username) {
+        try {
+            const token = localStorage.getItem('admin_token');
+            await axios.delete(`/api/apps/${appId}/permissions/${username}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            managePermissions(appId); // Refresh permissions
+            showAlert(`Permiso revocado a ${username}`, 'success');
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || error.message;
+            showAlert('Error al revocar permiso: ' + errorMessage, 'danger');
+        }
+    }
+
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        const container = document.querySelector('.main-content');
+        container.insertBefore(alertDiv, container.firstChild);
+        
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 5000);
+    }
+</script>
+{% endblock %} 

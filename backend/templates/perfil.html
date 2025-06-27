@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Mi Perfil{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">Mi Perfil</h2>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Usuario: {{ user.username }}</h5>
+                    <p class="card-text">Rol: {{ 'Administrador' if user.is_admin else 'Usuario' }}</p>
+                </div>
+            </div>
+            <a href="/mis-apps" class="btn btn-success">Ver mis aplicaciones</a>
+        </div>
+    </div>
+</div>
+{% endblock %} 
