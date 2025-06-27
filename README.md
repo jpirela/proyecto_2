@@ -83,4 +83,4 @@ python desktop_app.py
 
 ## 👤 Desarrollado por
 
-**Miguel Ángel Contreras**
+**Miguelangel Contreras**
