@@ -28,18 +28,41 @@ sass --watch frontend/src/css/style.scss:frontend/src/css/style.css
   text-align: center;
   line-height: 50px;
   font-size: 20px;
+
+  .user {
+    margin-left: auto; // Empuja el usuario a la derecha
+    background-color: transparent;
+    #userImage {
+      background-color: transparent; // Fondo transparente
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    margin-top: 5px;
+      margin-left: 10px;
+      margin-right: 10px;
+      object-fit: cover; // Mantiene la imagen bien recortada
+
+      &:hover {
+                content: url('../../public/assets/images/usuarioHoverActive.png');
+        cursor: pointer;
+      }
+
+      &:active {
+        content: url('../../public/assets/images/usuarioHoverActive.png');
+        width: 38px;
+        height: 38px;
+      }
+    }
+  }
 }
 
 .tab {
-
-    
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   background-color: #242424;
-  width: 90px;
   margin-top: 10px;
+  padding-right: 10px;
   border-radius: 10px 10px 0 0;
   border-color: rgb(80, 80, 80);
   border-style: solid;
@@ -49,16 +72,18 @@ sass --watch frontend/src/css/style.scss:frontend/src/css/style.css
   p {
     background-color: transparent;
     margin: 0;
-
-    &:active {
-      font-size: 13px;
-    }
+    display: inline-block; // Añade esto
+    padding: 0 10px;       // Espacio horizontal opcional
+    max-width: 200px;      // Opcional: límite de ancho
+    white-space: nowrap;   // Opcional: evita saltos de línea
+    overflow: hidden;      // Opcional: oculta texto extra
+    text-overflow: ellipsis; //...*/
   }
 
   .close-icon {
             content: url('../../public/assets/images/close.png');
     background-color: #242424;
-    margin-left: 10px;
+    margin-left: 0px;
     width: 15px;
     height: 15px;
 

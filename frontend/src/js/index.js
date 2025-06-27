@@ -80,26 +80,41 @@ function agregarNuevaTarea() {
 
 document.querySelector('#addTask img').addEventListener('click', agregarNuevaTarea);
 
-/*
-//anadir nueva pestana
-document.querySelector('#addTab img').addEventListener('click', function () {
-    // Crear el elemento de la pestaña
+// Función para agregar una nueva pestaña
+function agregarNuevaPestana() {
     const tabDiv = document.createElement('div');
     tabDiv.className = 'tab';
     tabDiv.innerHTML = `
-        <p>Doble click para asignar nombre</p>
+        <p>nueva</p>
         <img class="close-icon" src="../public/assets/images/close.png" alt="">
     `;
 
-    // Insertar antes de #addTab
-    const addTabDiv = document.getElementById('addTab');
+    // Insertar antes de .addTab
+    const addTabDiv = document.querySelector('.addTab');
     addTabDiv.parentNode.insertBefore(tabDiv, addTabDiv);
 
     // Hacer el nombre editable al hacer doble clic
     const tabName = tabDiv.querySelector('p');
     hacerEditableTab(tabName);
+}
+
+// Asignar evento al botón de agregar pestaña
+document.querySelector('.addTab img').addEventListener('click', agregarNuevaPestana);
+
+// Función para eliminar una pestaña
+function eliminarPestana(elemento) {
+    const tabDiv = elemento.closest('.tab');
+    if (tabDiv) {
+        tabDiv.remove();
+    }
+}
+
+// Delegación de eventos para eliminar pestañas
+document.querySelector('#TabHeader').addEventListener('click', function (e) {
+    if (e.target && e.target.classList.contains('close-icon')) {
+        eliminarPestana(e.target);
+    }
 });
-*/
 
 // Eliminar tarea y los hr exteriores usando delegación de eventos
 document.querySelector('.todoContainer').addEventListener('click', function (e) {
