@@ -8,6 +8,22 @@ import java.sql.SQLException;
 
 public class userServices {
 
+    public String getAllUsers(){
+        String sql = "SELECT * FROM usuarios";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            var resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                System.out.println("Usuario: " + resultSet.getString("usuario") +
+                                   ", Nombre: " + resultSet.getString("nombre") +
+                                   ", Apellido: " + resultSet.getString("apellido"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving users: " + e.getMessage());
+        }
+        return sql;
+    }
+
     public String userRegister(String nombre, String apellido, String usuario, String contrasena) {
         String sql = "INSERT INTO usuarios(nombre, apellido, usuario, contrasena) VALUES (?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getConnection();
@@ -27,15 +43,18 @@ public class userServices {
         }
     }
 
-    public String getUserById(int userId) {
-        String sql = "SELECT * FROM usuarios WHERE id = ?";
+    public String login(String username, String password) {
+        String sql = "SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            System.out.println(sql);
             var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return "User found: " + resultSet.getString("usuario");
             } else {
+                System.out.println("User not found.");
                 return "User not found.";
             }
         } catch (SQLException e) {

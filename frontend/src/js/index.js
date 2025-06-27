@@ -1,3 +1,7 @@
+import { registerUser } from './api.js';
+import { loginUser } from './api.js';
+
+
 // Función para hacer editable el nombre de una pestaña
 function hacerEditableTab(tabElement) {
     tabElement.addEventListener('dblclick', function () {
@@ -290,10 +294,30 @@ function mostrarModalRegistro() {
     btnRegistrar.style.margin = '10px';
     btnRegistrar.style.padding = '10px 20px';
     btnRegistrar.style.fontSize = '16px';
-    btnRegistrar.onclick = function() {
-        // Aquí puedes manejar el registro
-        alert('Usuario registrado');
-        document.body.removeChild(modalBg);
+    btnRegistrar.onclick = async function() {
+        // Obtén los valores de los inputs
+        const nombre = document.getElementById('nombre').value;
+        const apellido = document.getElementById('apellido').value;
+        const usuario = document.getElementById('usuario').value;
+        const contrasena = document.getElementById('contrasena').value;
+
+        // Crea el objeto con los datos
+        const userData = {
+            nombre,
+            apellido,
+            usuario,
+            contrasena
+        };
+
+        // Llama a la función de la API
+        const result = await registerUser(userData);
+
+        if (result) {
+            alert('Usuario registrado correctamente');
+            document.body.removeChild(modalBg);
+        } else {
+            alert('Error al registrar usuario');
+        }
     };
     modalContent.appendChild(btnRegistrar);
 
@@ -391,10 +415,20 @@ function mostrarModalLogin() {
     btnIniciar.style.margin = '10px';
     btnIniciar.style.padding = '10px 20px';
     btnIniciar.style.fontSize = '16px';
-    btnIniciar.onclick = function() {
-        // Aquí puedes manejar el inicio de sesión
-        alert('Sesión iniciada');
-        document.body.removeChild(modalBg);
+    btnIniciar.onclick = async function() {
+        const usuario = document.getElementById('usuarioLogin').value;
+        const contrasena = document.getElementById('contrasenaLogin').value;
+
+        const credentials = { usuario, contrasena };
+        const result = await loginUser(credentials);
+
+        if (result && result === "Login exitoso") {
+            alert('Sesión iniciada correctamente');
+            document.body.removeChild(modalBg);
+            // Aquí puedes guardar el usuario en localStorage o redirigir, etc.
+        } else {
+            alert(result || 'Usuario o contraseña incorrectos');
+        }
     };
     modalContent.appendChild(btnIniciar);
 
