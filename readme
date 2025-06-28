@@ -1,11 +1,4 @@
-Tu README ya está bastante bien estructurado y mayormente compatible con Markdown, pero para asegurarnos de que sea completamente portable y seguro para cualquier parser Markdown (como GitHub o Visual Studio Code), hice algunas correcciones menores:
 
-- Reemplacé todos los emojis en encabezados (`#`, `##`, `###`) con sus versiones sin emoji, ya que algunos parsers o herramientas no los renderizan correctamente.
-- Sustituí los íconos inline o emojis de sección fuera de encabezados con texto equivalente donde era necesario.
-- Ajusté algunos caracteres especiales si podían interpretarse de forma ambigua en Markdown (como `·`, o flechas decorativas en listas).
-- Corregí rutas mal referenciadas como `basedatos/` que no coincidían con la estructura del árbol de carpetas (`base-de-datos/`).
-
-Aquí tienes la versión limpia, 100% compatible con Markdown:
 
 ```markdown
 # Gestor de Tareas MC
@@ -170,9 +163,4 @@ Desarrollado por **Marco**, con enfoque en organización y buenas prácticas.
 
 ---
 
-## Licencia
 
-Distribuido bajo la licencia ISC.
-```
-
-Si lo quieres como archivo `.md` listo para descargar o integrar con GitHub, te puedo ayudar a prepararlo también. ¿Quieres que lo empaquemos o le agregamos una sección más?
