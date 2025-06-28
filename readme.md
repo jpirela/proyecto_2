@@ -1,5 +1,3 @@
-
-
 ```markdown
 # Gestor de Tareas MC
 
