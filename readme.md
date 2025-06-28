@@ -31,7 +31,7 @@ Aplicación full stack para la gestión personal de tareas, construida con **Nod
 
 ## Estructura del Proyecto
 
-
+```bash
 proyecto-gestor-de-tareas/
 ├── base-de-datos/
 │   └── bade_tarea.sql
@@ -82,7 +82,7 @@ proyecto-gestor-de-tareas/
 │   ├── APP.js
 │   ├── nodemon.json
 │   └── package.json
-
+```
 
 
 
