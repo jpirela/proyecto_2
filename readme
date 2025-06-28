@@ -1,0 +1,192 @@
+```markdown
+# 🗂️ Gestor de Tareas MC
+
+Aplicación full stack para la gestión personal de tareas, construida con **Node.js**, **Express**, **Sequelize** y **PostgreSQL** en el backend, y una interfaz web dinámica en **HTML**, **CSS** y **JavaScript** puro. Incluye autenticación básica, documentación Swagger, y una arquitectura modular enfocada en buenas prácticas.
+
+---
+
+## 🚀 Tecnologías Utilizadas
+
+### 🧠 Backend – API RESTful
+- **Node.js v18+** · Entorno de ejecución para servidor JavaScript
+- **Express.js v5.1.0** · Framework para ruteo, middlewares y estructura REST
+- **Sequelize v6.37.7** · ORM para definir modelos, relaciones y validaciones
+- **PostgreSQL v17.5** · Base de datos robusta con integridad referencial y consultas avanzadas
+- **dotenv v16.5.0** · Manejo seguro de variables de entorno
+- **pg / pg-hstore** · Conexión nativa a PostgreSQL y serialización JSON
+
+### 📄 Documentación y Validación
+- **Swagger UI Express v5.0.1** · Documentación interactiva disponible en `/api-docs`
+- **YAMLJS v0.3.0** · Carga del esquema `OpenAPI` desde `docs/usuario.yaml`
+- **Middlewares personalizados** · Validación manual antes de acceder a los controladores
+
+### 💻 Frontend – Interfaz Web
+- **HTML5 & CSS3** · Estructura semántica con estilos visuales modernos
+- **JavaScript (ES6)** · Scripts modulares para renderizado y consumo de la API
+- **Axios v1.10.0** · Peticiones HTTP eficientes y simplificadas
+- **LocalStorage** · Gestión del estado de autenticación del usuario
+- **Componentes reutilizables** · Scripts independientes para crear, modificar y eliminar tareas
+- **Diseño temático** · Fondos texturizados, botones animados y modales personalizados
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+proyecto-gestor-de-tareas/
+├── base-de-datos/
+│   └── bade_tarea.sql
+├── proyecto-taskflow/
+│   ├── index.html
+│   ├── index.css
+│   ├── index.js
+│   ├── modal.js
+│   ├── modal.css
+│   ├── assets/
+│   │   ├── image.png
+│   │   └── madera.png
+│   └── components/
+│       ├── task/
+│       │   ├── task.html
+│       │   ├── task.css
+│       │   └── crear.js
+│       ├── modificar/
+│       │   ├── modificar.js
+│       │   └── modificar-task.js
+│       └── eliminar/
+│           └── eliminar.js
+├── apigestordetareas/
+│   ├── app.js
+│   ├── config/
+│   │   └── db.js
+│   ├── controllers/
+│   │   ├── usuarioController.js
+│   │   ├── tareaController.js
+│   │   └── comentarioController.js
+│   ├── docs/
+│   │   └── usuario.yaml
+│   ├── middlewares/
+│   │   └── validarComentario.js
+│   │   └── validarUsuario.js
+│   │   └── validarTarea.js
+│   ├── models/
+│   │   ├── usuario.js
+│   │   ├── tarea.js
+│   │   └── comentario.js
+│   ├── routes/
+│   │   ├── usuarioRoutes.js
+│   │   ├── tareaRoutes.js
+│   │   └── comentarioRoutes.js
+│   ├── swagger/
+│   │   └── swagger.js
+│   ├── .env
+│   ├── APP.js
+│   ├── nodemon.json
+│   └── package.json
+
+```
+
+---
+
+## ⚙️ ¿Cómo funciona?
+
+### 1. Servidor (API):
+- Gestiona rutas RESTful para `usuarios`, `tareas` y `comentarios`
+- Realiza operaciones CRUD conectadas a PostgreSQL
+- Expone documentación Swagger para facilitar pruebas y uso externo
+- Aplica validaciones manuales antes de registrar datos en la BD
+
+### 2. Cliente (Web):
+- Carga dinámica de tareas según el usuario autenticado
+- Manejo de sesión con `localStorage` y modales interactivos
+- Permite registrar nuevos usuarios, crear y modificar tareas, y eliminar múltiples simultáneamente
+
+---
+
+## 🧪 Cómo correr el servidor desde la carpeta API
+
+1. Abre una terminal y navega al proyecto:
+```bash
+cd /ruta/a/gestor-tareas-mc
+```
+
+2. Instala dependencias:
+```bash
+npm install
+```
+
+3. Crea un archivo `.env` con tus credenciales PostgreSQL:
+```env
+DB_NAME=gestor_tareas
+DB_USER=postgres
+DB_PASS=tu_contraseña
+DB_HOST=localhost
+```
+
+4. Importa la base de datos:
+```bash
+psql -U postgres -d gestor_tareas -f basedatos/bade_tarea.sql
+```
+
+5. Corre el servidor:
+```bash
+npm run dev     # modo desarrollo con nodemon
+```
+o
+```bash
+npm start       # ejecución simple con Node.js
+```
+
+> 🔁 Gracias al archivo `nodemon.json`, se reinicia automáticamente al editar `app.js`, modelos, rutas o controladores.
+
+---
+
+## 🖥️ Cómo usar la interfaz web
+
+1. Abre el archivo `public/index.html` en tu navegador.
+2. Inicia sesión o regístrate con los formularios modales.
+3. Crea tareas con el botón “Nueva tarea”.
+4. Selecciona una o varias tareas para modificar o eliminar.
+5. Toda interacción se sincroniza con la API Express vía `axios`.
+
+---
+
+## 📚 Documentación Swagger
+
+Disponible en:  
+📎 [`http://localhost:3000/api-docs`](http://localhost:3000/api-docs)
+
+Define endpoints para:
+- `/usuarios` → crear, listar, consultar
+- `/tareas` → CRUD y filtrado por usuario
+- `/comentarios` → añadir o recuperar comentarios por tarea
+
+---
+
+## 🧠 Base de Datos
+
+Incluye:
+- Tablas: `usuarios`, `tareas`, `comentarios`
+- Relacionadas por claves foráneas con `ON DELETE CASCADE`
+- Validaciones SQL (`CHECK`) para prioridad y estado
+- Claves únicas en `email` y `ci`
+
+Puedes restaurarla con:
+
+```bash
+psql -U postgres -d gestor_tareas -f basedatos/bade_tarea.sql
+```
+
+---
+
+## 🙌 Autor
+
+Proyecto desarrollado por **Marco**, con enfoque en organización, claridad de código, documentación profesional y separación de responsabilidades.
+
+---
+
+## 📄 Licencia
+
+Distribuido bajo la licencia ISC.
+```
+

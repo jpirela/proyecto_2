@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Crear Nueva Tarea</title>
+  <link rel="stylesheet" href="task.css">
+</head>
+<body>
+
+  <div class="tarea">
+    <h2>Tarea</h2>
+    <div class="escrito">
+      <ul class="lista">
+        <li class="il">titulo: <input class="input" type="text" id="titulo" /></li>
+        <li class="il">descripcion: <textarea class="texto_grande" id="descripcion" rows="3"></textarea></li>
+        <li class="il">prioridad:
+          <select class="input" id="prioridad">
+            <option value="1">baja</option>
+            <option value="2">media</option>
+            <option value="3">alta</option>
+            <option value="4">urgente</option>
+            <option value="5">crítica</option>
+          </select>
+        <li class="il">estado:
+          <select class="input" id="estado">
+            <option value="pendiente">pendiente</option>
+            <option value="completada">completada</option>
+            <option value="en progreso">en progreso</option>
+          </select>
+        </li>
+        <li class="il">fecha:  <input class="input" type="date" id="fecha" /></li>
+        <li class="il">comentarios: <textarea class="texto_grande" id="comentarios" rows="2"></textarea></li>
+      </ul>
+    </div>
+
+    <br />
+    <button class="button" id="btnGuardar">Guardar tarea</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+ <script>
+  const params = new URLSearchParams(window.location.search);
+  const modo = params.get("modo");
+  console.log("Modo:", modo);
+
+  const script = document.createElement("script");
+  script.src = modo === "modificar"
+    ? "/components/modificar/modificar-task.js"
+    : "/components/task/crear.js";
+
+  console.log("Intentando cargar:", script.src);
+
+  document.body.appendChild(script);
+</script>
+
+
+
+</body>
+</html>

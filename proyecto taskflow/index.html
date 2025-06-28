@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gestion de tareas  </title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="modal.css">
+</head>
+<body>
+
+    <div class="grid_layout">
+        <header class="header"> 
+            <h1 class="h1"> gestor de tareas MC </h1>
+            <img class="logo" width="15%" src="assets\image.png" alt="logo de tabla de tareas">
+        </header>
+        <nav class="nav">
+            <button class="button-inicio" id="botonLogin" onclick="mostrarModal()">Iniciar sesión</button>
+        </nav>
+        <div id="section-aside">
+            <section class="section">
+                <div class="content">
+                    <h1 class="titulos">tareas pendientes</h1>
+                    <div class="contenedor-tareas" id="contenedor-tareas"></div>
+                    
+                </div>
+                
+            </section>
+            <aside class="aside">
+                <div class="content-button">
+                <h1 class="titulos">opciones</h1>
+                <button class="button" onclick="abrirFormularioNuevaTarea()"> nueva tarea</button>
+                <button class="button" id="btnEliminar"> eliminar tarea</button>
+                <button class="button" id="btnModificar"> modificar tarea</button>
+                </div>
+            </aside>
+        </div>
+        <footer class="footer">
+            <p>footer</p>
+        </footer>
+    </div>
+    
+
+<!-- El Modal -->
+ <div id="modal" class="modal">
+  <div class="modal-contenido">
+    <span class="cerrar" onclick="cerrarModal()">&times;</span>
+    <h2>Iniciar Sesión</h2>
+    <input id="Usuario" type="text" placeholder="Usuario">
+    <input id="Contrasena" type="password" placeholder="Contraseña">
+    <div ><button class="button"  onclick="Iniciarsesion()">Entrar</button>
+    <button class="button"  onclick="mostrarModalR()">registrarse</button>
+    </div>
+    
+  </div>
+</div>   
+
+ <div id="modal-registro" class="modal-registro">
+  <div class="modal-contenido">
+    <span class="cerrar" onclick="cerrarModalR()">&times;</span>
+    <h2>registrarse</h2>
+    <input id="nombre" type="text" placeholder="nombre">
+    <input id="ContrasenaR" type="password" placeholder="Contraseña">
+    <input id="email" type="email" placeholder="Email">
+    <input id="ci" type="text" placeholder="cedula">
+    <div ><button class="button"  onclick="guardarUsuario()">Guardar</button>
+    </div>
+    
+  </div>
+</div>   
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="./components/eliminar/eliminar.js"></script>
+<script src="./components/modificar/modificar.js"></script>
+<script src="index.js"></script>
+<script src="modal.js"></script>
+</body>
+</html>

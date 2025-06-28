@@ -1,0 +1,352 @@
+openapi: 3.0.0
+info:
+  title: API de Usuarios
+  version: 1.0.0
+paths:
+  /usuarios:
+    get:
+      summary: Obtener usuarios
+      tags:
+      - usuario
+      x-order: 1
+      responses:
+        '200':
+          description: Lista de usuarios
+        '404':
+          description: No se han encontrado usuarios
+    
+    post:
+      summary: Crear usuario
+      tags:
+      - usuario
+      x-order: 2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nombre
+                - email
+                - ci
+                - contrasena
+              properties:
+                nombre:
+                  type: string
+                email:
+                  type: string
+                ci:
+                  type: string
+                contrasena:
+                  type: string
+      responses:
+        '201':
+          description: Usuario creado
+
+  /usuarios/{id}:
+    delete:
+      summary: Eliminar usuario por ID
+      tags:
+      - usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario a eliminar
+      responses:
+        '200':
+          description: Usuario eliminado
+        '404':
+          description: Usuario no encontrado
+    get:
+      summary: Buscar usuario por ID
+      tags:
+      - usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario a buscar
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuario encontrado
+        '404':
+          description: No se ha encontrado el usuario
+
+  /tareas:
+    get:
+      summary: Obtener tareas
+      tags:
+      - tarea
+      responses:
+        '200':
+          description: Lista de usuarios
+        '404':
+          description: No se han encontrado usuarios
+
+    post:
+      summary: Crear usuario
+      tags:
+      - tarea
+      x-order: 2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - titulo
+                - descripcion
+                - prioridad
+                - estado
+                - fecha_tope
+                - usuario_id
+              properties:
+                titulo:
+                  type: string
+                descripcion:
+                  type: string
+                prioridad:
+                  type: integer
+                  default: 1
+                estado:
+                  type: string
+                  default: "pendiente"
+                fecha_tope:
+                  type: string
+                  default: "0000-00-00"
+                usuario_id:
+                  type: integer
+      responses:
+        '201':
+          description: Usuario creado
+
+  /tareas/{id}:
+    delete:
+      summary: Eliminar tarea por ID
+      tags:
+      - tarea
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la tarea a eliminar
+      responses:
+        '200':
+          description: tarea eliminado
+        '404':
+          description: tarea no encontrado
+
+    get:
+      summary: Buscar tarea por ID d
+      tags:
+      - tarea
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID  de la tarea a buscar
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: tarea encontradas
+        '404':
+          description: No se ha encontrado tareas
+    put:
+      summary: Actualizar una tarea existente
+      tags:
+        - tarea
+      x-order: 3
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la tarea a actualizar
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - titulo
+                - descripcion
+                - estado
+                - usuario_id
+              properties:
+                titulo:
+                  type: string
+                  example: Actualizar sistema de notificaciones
+                descripcion:
+                  type: string
+                  example: Se debe optimizar el servicio de alertas para usuarios inactivos
+                prioridad:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  example: 3
+                estado:
+                  type: string
+                  enum: [pendiente, en progreso, completada]
+                  example: en progreso
+                fecha_tope:
+                  type: string
+                  example: 2025-07-15
+                usuario_id:
+                  type: integer
+                  example: 7
+      responses:
+        '200':
+          description: Tarea actualizada correctamente
+          
+        '404':
+          description: No se encontró la tarea
+        '500':
+          description: Error al actualizar la tarea
+
+  /tareas/usuario/{idusuario}:
+    get:
+      summary: Buscar tarea por ID de Usuario
+      tags:
+      - tarea
+      parameters:
+        - name: idusuario
+          in: path
+          required: true
+          description: ID de Usuario de la tarea a buscar
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: tarea encontradas
+        '404':
+          description: No se ha encontrado tareas
+
+  /comentarios:
+    get:
+      summary: Obtener comentarios
+      tags:
+      - comentario
+      x-order: 1
+      responses:
+        '200':
+          description: Lista de comentarios
+        '404':
+          description: No se han encontrado comentarios
+    
+    post:
+      summary: Crear comentario
+      tags:
+      - comentario
+      x-order: 2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - contenido
+                - tarea_id
+                - usuario_id
+              properties:
+                contenido:
+                  type: string
+                tarea_id:
+                  type: integer
+                  default: 1
+                usuario_id:
+                  type: integer
+                  default: 1
+      responses:
+        '201':
+          description: comentario creado
+
+  /comentarios/{id}:
+    delete:
+      summary: Eliminar comentario por ID
+      tags:
+      - comentario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del comentario a eliminar
+      responses:
+        '200':
+          description: comentario eliminado
+        '404':
+          description: comentario no encontrado
+    get:
+      summary: Buscar comentario por ID
+      tags:
+      - comentario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de el comentario a buscar
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: comentario encontrado
+        '404':
+          description: No se ha encontrado el comentario 
+    put:
+      summary: Reemplazar comentario
+      tags:
+        - comentario
+      x-order: 3
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del comentario a reemplazar
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - contenido
+                - tarea_id
+                - usuario_id
+              properties:
+                contenido:
+                  type: string
+                  example: Comentario actualizado
+                tarea_id:
+                  type: integer
+                  default: 1
+                usuario_id:
+                  type: integer
+                  default: 1
+      responses:
+        '200':
+          description: comentario reemplazado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: No se encontró el comentario
+        '500':
+          description: Error al reemplazar el comentario
+        
