@@ -1,5 +1,3 @@
-markdown
-
 # Gestor de Tareas MC
 
 Aplicación full stack para la gestión personal de tareas, construida con **Node.js**, **Express**, **Sequelize** y **PostgreSQL** en el backend, y una interfaz web dinámica en **HTML**, **CSS** y **JavaScript** puro. Incluye autenticación básica, documentación Swagger y una arquitectura modular enfocada en buenas prácticas.
