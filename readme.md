@@ -1,9 +1,8 @@
 ```markdown
+```
 # Gestor de Tareas MC
 
 Aplicación full stack para la gestión personal de tareas, construida con **Node.js**, **Express**, **Sequelize** y **PostgreSQL** en el backend, y una interfaz web dinámica en **HTML**, **CSS** y **JavaScript** puro. Incluye autenticación básica, documentación Swagger y una arquitectura modular enfocada en buenas prácticas.
-
----
 
 ## Tecnologías Utilizadas
 
@@ -28,11 +27,11 @@ Aplicación full stack para la gestión personal de tareas, construida con **Nod
 - **Componentes reutilizables**: Scripts independientes para crear, modificar y eliminar tareas
 - **Diseño temático**: Fondos texturizados, botones animados y modales personalizados
 
----
+
 
 ## Estructura del Proyecto
 
-```
+
 proyecto-gestor-de-tareas/
 ├── base-de-datos/
 │   └── bade_tarea.sql
@@ -83,9 +82,9 @@ proyecto-gestor-de-tareas/
 │   ├── APP.js
 │   ├── nodemon.json
 │   └── package.json
-```
 
----
+
+
 
 ## ¿Cómo funciona?
 
@@ -100,7 +99,7 @@ proyecto-gestor-de-tareas/
 - Manejo de sesión con `localStorage` y modales interactivos
 - Permite registrar usuarios, crear/modificar/eliminar tareas
 
----
+
 
 ## Cómo correr el servidor desde la carpeta API
 
@@ -132,7 +131,6 @@ npm run dev
 npm start
 ```
 
----
 
 ## Cómo usar la interfaz web
 
@@ -140,25 +138,24 @@ npm start
 2. Regístrate o inicia sesión
 3. Crea, modifica o elimina tareas usando los botones y modales
 
----
 
 ## Documentación Swagger
 
 Disponible en:  
 `http://localhost:3000/api-docs`
 
----
+
 
 ## Base de Datos
 
 Incluye validaciones, relaciones `ON DELETE CASCADE`, y claves únicas.
 
----
+
 
 ## Autor
 
 Desarrollado por **Marco**, con enfoque en organización y buenas prácticas.
 
----
+```
 
 
