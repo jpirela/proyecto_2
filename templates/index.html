@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestor de Contactos</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>📇 Libreta de Contactos</h1>
+
+    <form class="formulario" action="/agregar" method="POST">
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="tel" name="telefono" placeholder="Teléfono" required>
+      <input type="email" name="correo" placeholder="Correo electrónico" required>
+      <div class="botones">
+        <button type="submit" class="agregar">Agregar</button>
+      </div>
+    </form>
+
+    <div class="lista-contactos">
+      <h2>📒 Lista de Contactos</h2>
+      <ul>
+        {% for contacto in contactos %}
+          <li>
+  <div class="contacto-info">
+    {{ contacto.nombre }} - {{ contacto.telefono }} - {{ contacto.correo }}
+  </div>
+  
+  <form class="form-editar" action="/editar/{{ contacto.id }}" method="post">
+    <input type="text" name="nombre" value="{{ contacto.nombre }}" required>
+    <input type="tel" name="telefono" value="{{ contacto.telefono }}" required>
+    <input type="email" name="correo" value="{{ contacto.correo }}" required>
+    <div class="contacto-botones">
+      <button type="submit" class="editar">Editar</button>
+      <a href="/eliminar/{{ contacto.id }}" class="eliminar" onclick="return confirm('¿Seguro que quieres eliminar este contacto?');">Eliminar</a>
+    </div>
+  </form>
+</li>
+
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

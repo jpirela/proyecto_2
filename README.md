@@ -1,44 +1,63 @@
-# 🍽️ Menu de Platillos 
-
-Aplicación para la gestión de pedidos en restaurantes, construida con Python, Flask y PostgreSQL en el backend, y una interfaz web dinámica en HTML, CSS y JavaScript. Incluye gestión completa de menú, pedidos y historial.
-
-## 🛠️ Tecnologías Utilizadas
-
-### Backend 
-- **Python**: Lenguaje principal del servidor
-- **Flask**: Framework para ruteo y estructura REST
-- **SQLAlchemy**: ORM para modelos y conexión a base de datos
-- **PostgreSQL**: Base de datos robusta para persistencia de pedidos
-
-### Frontend 
-- **HTML & CSS**
-- **JavaScript**:
+---
 
 
-## 🔍 ¿Cómo funciona?
+````
+# 📇 Gestor de Contactos
 
-- Operaciones CRUD para pedidos conectadas a PostgreSQL
-- Validación de datos antes de registrar en la BD
-- Visualización dinámica del menú del restaurante
-- Gestión de pedidos en tiempo real
-- Historial de pedidos persistente
+Este es un **Gestor de Contactos** web simple desarrollado con **Python (Flask)**, **PostgreSQL**, **SQLAlchemy**, y una interfaz hecha con **HTML y CSS**. Permite agregar, editar y eliminar contactos.
 
+---
 
-### Requisitos previos
-- Python 
-- PostgreSQL instalado
-- pipenv 
+## 🧩 Tecnologías utilizadas
 
+- **Python **
+- **Flask**
+- **PostgreSQL**
+- **SQLAlchemy**
+- **HTML**
+- **CSS**
+- **pgAdmin** (para gestión visual de la base de datos)
 
-### Ejecutar servidor
+---
 
+## 🚀 ¿Qué se puede hacer?
+
+✅ Agregar nuevos contactos  
+✅ Editar información de un contacto existente  
+✅ Eliminar contactos  
+
+---
+
+## 🛠️ Instalación
+
+###  Instalar las dependencias
+
+Flask
+Flask-SQLAlchemy
+psycopg2-binary
+
+###  Configurar la conexión en `app.py`
+
+```python
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://usuario:contraseña@localhost:5432/contactos'
+```
+
+Reemplazar `usuario` y `contraseña` por los datos reales de tu base de datos.
+
+---
+
+## ▶️ Ejecución
+
+Ejecutar el servidor Flask:
+
+```
 python app.py
+```
 
-Abrir http://localhost:5000 en tu navegador
+Abrir el navegador en:
 
+```
+http://localhost:5000
+```
 
-## 🎨 Características de la Interfaz
-- Visualización atractiva de platillos
-- Permite modificar pedidos antes de confirmar
-- Cálculo en tiempo real del costo
-- **Historial con consulta de pedidos anteriores
+---

@@ -1,94 +1,44 @@
-from flask import Flask, jsonify, request, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
-import json
-import os
+from flask import Flask, render_template, request, redirect, url_for
+from models import db, Contacto
 
 app = Flask(__name__)
-
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:clave@localhost:5432/pedidos'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://usuario:clave@localhost:5432/contactos'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+db.init_app(app)
 
-
-class Pedido(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    items = db.Column(db.Text, nullable=False)  
-    total = db.Column(db.Float, nullable=False)
-
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def index():
-    return send_from_directory('static', 'index.html')
+    contactos = Contacto.query.all()
+    return render_template('index.html', contactos=contactos)
 
+@app.route('/agregar', methods=['POST'])
+def agregar():
+    nombre = request.form['nombre']
+    telefono = request.form['telefono']
+    correo = request.form['correo']
+    nuevo = Contacto(nombre=nombre, telefono=telefono, correo=correo)
+    db.session.add(nuevo)
+    db.session.commit()
+    return redirect(url_for('index'))
 
-@app.route('/static/<path:filename>')
-def static_files(filename):
-    return send_from_directory('static', filename)
+@app.route('/eliminar/<int:id>')
+def eliminar(id):
+    contacto = Contacto.query.get(id)
+    db.session.delete(contacto)
+    db.session.commit()
+    return redirect(url_for('index'))
 
-
-@app.route('/pedidos', methods=['GET'])
-def obtener_pedidos():
-    try:
-        pedidos = Pedido.query.order_by(Pedido.id.desc()).all()
-        respuesta = []
-
-        for p in pedidos:
-            try:
-                items = json.loads(p.items) if p.items else []
-            except json.JSONDecodeError:
-                items = []
-
-            respuesta.append({
-                "id": p.id,
-                "items": items,
-                "total": p.total
-            })
-
-        return jsonify(respuesta)
-
-    except Exception as e:
-        print("❌ Error al obtener pedidos:", e)
-        return jsonify({"error": "Error interno del servidor"}), 500
-
-
-@app.route('/pedido', methods=['POST'])
-def crear_pedido():
-    try:
-        data = request.get_json()
-        items = data.get('items', [])
-        total = data.get('total', 0.0)
-
-        # Validar datos
-        if not isinstance(items, list) or not isinstance(total, (int, float)):
-            return jsonify({"error": "Datos inválidos"}), 400
-
-        pedido = Pedido(items=json.dumps(items), total=total)
-        db.session.add(pedido)
-        db.session.commit()
-        return jsonify({"mensaje": "✅ Pedido guardado con éxito"})
-
-    except Exception as e:
-        print("❌ Error al guardar pedido:", e)
-        return jsonify({"error": "No se pudo guardar el pedido"}), 500
-
-
-@app.route('/pedido/<int:pedido_id>', methods=['DELETE'])
-def eliminar_pedido(pedido_id):
-    try:
-        pedido = Pedido.query.get(pedido_id)
-        if pedido:
-            db.session.delete(pedido)
-            db.session.commit()
-            return jsonify({"mensaje": "🗑️ Pedido eliminado"})
-        else:
-            return jsonify({"error": "Pedido no encontrado"}), 404
-    except Exception as e:
-        print("❌ Error al eliminar pedido:", e)
-        return jsonify({"error": "Error interno al eliminar"}), 500
-
+@app.route('/editar/<int:id>', methods=['POST'])
+def editar(id):
+    contacto = Contacto.query.get(id)
+    contacto.nombre = request.form['nombre']
+    contacto.telefono = request.form['telefono']
+    contacto.correo = request.form['correo']
+    db.session.commit()
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
