@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de formula 1</title>
+    <link rel="stylesheet" href="styles.css"> </head>
+    
+</head>
+<body>
+
+    <header>
+        <nav class="horizontal-menu">
+            <ul>
+                <li><a href="1" hx-get="/pilotos" hx-target="#content" hx-swap="innerHTML">Pilotos</a> </li>
+                <li><a href="2" hx-get="/equipos" hx-target="#content" hx-swap="innerHTML">Equipos</a> </li>
+                <li><a href="1" hx-get="/carreras" hx-target="#content" hx-swap="innerHTML">Carreras</a> </li>
+                <li><a href="1" hx-get="/campeonato de pilotos" hx-target="#content" hx-swap="innerHTML">Campeonato de pilotos</a> </li>
+                <li><a href="1" hx-get="/campeonato de constructores" hx-target="#content" hx-swap="innerHTML">Campeonato de constructores</a> </li>
+
+            </ul>
+
+        
+        </nav>
+
+
+    </header>
+
+
+    <div class="Descripcion">
+
+        <h2 id="Proxima-carrera">Proxima Carrera: España.</h2>
+        <h3 id="D1">Carrera:dom, 1 junio, 9:00 a.m.</h3>
+        <h3 id="D1">Mejor tiempo: 1.14.637- Michael schumacher(2006).</h3>
+        <h3 id="D1">Pista: Circuito de Barcelona.</h3>
+
+    </div>
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"></script>
+   
+</body>
+</html>
