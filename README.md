@@ -1,22 +1,44 @@
-# ProyectoFlask_RafaelCastro
-sudo apt install python3
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+# 🍽️ Menu de Platillos 
 
-## Base de datos
-crear la base de datos (con postgresql por ejemplo)
-crear con touch .env con FLASK_ENV y DATABASE_URL para ejecutarlo en localhost
-Se debera crear una tabla llamada 'Administradores' en que contenga los campos 
-usuario y contrasena en donde se insertaran un admin con su contrasena para realizar el CRUD 
-posteriormente
+Aplicación para la gestión de pedidos en restaurantes, construida con Python, Flask y PostgreSQL en el backend, y una interfaz web dinámica en HTML, CSS y JavaScript. Incluye gestión completa de menú, pedidos y historial.
 
-## Ejecutar en localhost
-python3 main.py
-esto ejecutara una ventana de registro en el puerto 5000, se puede visualizar en el navegador
+## 🛠️ Tecnologías Utilizadas
 
-## Administrar
-En el directorio Administar_Usuarios se encuentra el codigo que ejecuta la ventana de administrador
-python3 app.py
-Se debe ingresar el usuario y contrasena insertados anteriormente al crear la base de datos
+### Backend 
+- **Python**: Lenguaje principal del servidor
+- **Flask**: Framework para ruteo y estructura REST
+- **SQLAlchemy**: ORM para modelos y conexión a base de datos
+- **PostgreSQL**: Base de datos robusta para persistencia de pedidos
 
+### Frontend 
+- **HTML & CSS**
+- **JavaScript**:
+
+
+## 🔍 ¿Cómo funciona?
+
+- Operaciones CRUD para pedidos conectadas a PostgreSQL
+- Validación de datos antes de registrar en la BD
+- Visualización dinámica del menú del restaurante
+- Gestión de pedidos en tiempo real
+- Historial de pedidos persistente
+
+
+### Requisitos previos
+- Python 
+- PostgreSQL instalado
+- pipenv 
+
+
+### Ejecutar servidor
+
+python app.py
+
+Abrir http://localhost:5000 en tu navegador
+
+
+## 🎨 Características de la Interfaz
+- Visualización atractiva de platillos
+- Permite modificar pedidos antes de confirmar
+- Cálculo en tiempo real del costo
+- **Historial con consulta de pedidos anteriores
