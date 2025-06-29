@@ -1,5 +1,5 @@
 
-````
+
 # 📇 Gestor de Contactos
 
 Este es un **Gestor de Contactos** web simple desarrollado con **Python (Flask)**, **PostgreSQL**, **SQLAlchemy**, y una interfaz hecha con **HTML y CSS**. Permite agregar, editar y eliminar contactos.
