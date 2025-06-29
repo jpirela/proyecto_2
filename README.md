@@ -4,7 +4,6 @@
 
 Este es un **Gestor de Contactos** web simple desarrollado con **Python (Flask)**, **PostgreSQL**, **SQLAlchemy**, y una interfaz hecha con **HTML y CSS**. Permite agregar, editar y eliminar contactos.
 
----
 
 ## 🧩 Tecnologías utilizadas
 
@@ -16,7 +15,7 @@ Este es un **Gestor de Contactos** web simple desarrollado con **Python (Flask)*
 - **CSS**
 - **pgAdmin** (para gestión visual de la base de datos)
 
----
+
 
 ## 🚀 ¿Qué se puede hacer?
 
@@ -24,7 +23,6 @@ Este es un **Gestor de Contactos** web simple desarrollado con **Python (Flask)*
 ✅ Editar información de un contacto existente  
 ✅ Eliminar contactos  
 
----
 
 ## 🛠️ Instalación
 
@@ -42,7 +40,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://usuario:contraseña@localh
 
 Reemplazar `usuario` y `contraseña` por los datos reales de tu base de datos.
 
----
+
 
 ## ▶️ Ejecución
 
