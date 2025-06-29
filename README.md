@@ -1,22 +1,20 @@
-# ProyectoFlask_RafaelCastro
-sudo apt install python3
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
 
-## Base de datos
-crear la base de datos (con postgresql por ejemplo)
-crear con touch .env con FLASK_ENV y DATABASE_URL para ejecutarlo en localhost
-Se debera crear una tabla llamada 'Administradores' en que contenga los campos 
-usuario y contrasena en donde se insertaran un admin con su contrasena para realizar el CRUD 
-posteriormente
+# Sistema de Registro y Login con Flask
 
-## Ejecutar en localhost
-python3 main.py
-esto ejecutara una ventana de registro en el puerto 5000, se puede visualizar en el navegador
+## 🛠 Tecnologías utilizadas
 
-## Administrar
-En el directorio Administar_Usuarios se encuentra el codigo que ejecuta la ventana de administrador
-python3 app.py
-Se debe ingresar el usuario y contrasena insertados anteriormente al crear la base de datos
+- **Python 3.11**
+- **Flask** – Framework web para crear la aplicación.
+- **HTML5** – Para la estructura de la interfaz de usuario.
+- **CSS3** – Para el diseño visual y estilos.
+- **HTMX** – Para interactividad dinámica sin necesidad de JavaScript completo.
+- **Werkzeug** – Para el manejo seguro de contraseñas (hash).
+- **PostgreSQL** – Base de datos para almacenar usuarios.
 
+## ⚙️ ¿Cómo funciona?
+
+Este proyecto es una aplicación web simple que permite a los usuarios registrarse y luego iniciar sesión. Los datos del usuario (nombre de usuario, correo electrónico y contraseña) se almacenan en una base de datos PostgreSQL, donde la contraseña se guarda cifrada.
+
+HTMX se utiliza para mejorar la interactividad del sitio web, permitiendo actualizaciones parciales de la página sin recargar por completo.
+
+Cuando un usuario inicia sesión correctamente, es redirigido a una página protegida. Si las credenciales son incorrectas, se muestra un mensaje de error. El diseño de la interfaz está hecho con HTML, CSS y HTMX, y la lógica del backend con Flask en Python.
