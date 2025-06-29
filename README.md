@@ -7,7 +7,7 @@ Este es un **Gestor de Contactos** web simple desarrollado con **Python (Flask)*
 
 ## 🧩 Tecnologías utilizadas
 
-- **Python **
+- **Python**
 - **Flask**
 - **PostgreSQL**
 - **SQLAlchemy**
@@ -28,9 +28,9 @@ Este es un **Gestor de Contactos** web simple desarrollado con **Python (Flask)*
 
 ###  Instalar las dependencias
 
-Flask
-Flask-SQLAlchemy
-psycopg2-binary
+-Flask
+-Flask-SQLAlchemy
+-psycopg2-binary
 
 ###  Configurar la conexión en `app.py`
 
