@@ -1,6 +1,4 @@
 
-
-
 ````
 # 📇 Gestor de Contactos
 
@@ -60,4 +58,3 @@ Abrir el navegador en:
 http://localhost:5000
 ```
 
----
