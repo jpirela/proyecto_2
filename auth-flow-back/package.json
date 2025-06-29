@@ -1,0 +1,11 @@
+{
+  "name": "auth-flow-back",
+  "version": "1.0.0",
+  "description": "back para el flujo de autentizacion de una app",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "diego morales",
+  "license": "ISC"
+}
