@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iniciar Sesión – Cupcake (HTMX)</title>
+
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background: #fff;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 320px;
+    }
+    .login-box h2 {
+      margin-top: 0;
+      color: #d26c8e;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 0.6em;
+      margin-bottom: 1em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .login-box button {
+      width: 100%;
+      background-color: #d26c8e;
+      color: white;
+      border: none;
+      padding: 0.7em;
+      border-radius: 4px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .alt-buttons {
+      margin-top: 1em;
+    }
+    .alt-buttons button {
+      margin-top: 0.5em;
+      background-color: #4285F4;
+    }
+    .facebook {
+      background-color: #3B5998;
+    }
+    .forgot {
+      text-align: right;
+      margin-top: -0.5em;
+      margin-bottom: 1em;
+    }
+    .forgot a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+    .flashes {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1em;
+    }
+    .flashes li {
+      color: #c00;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div id="login-container" class="login-box">
+    <!-- Aquí cargamos el login initial (o la respuesta ajax) -->
+    <h2>¡WELCOME BACK!</h2>
+    <p>Accede a un universo de recetas irresistibles.</p>
+
+    <!-- El formulario usará HTMX para enviarse a /login -->
+    <form
+      hx-post="/login"
+      hx-target="#login-container"
+      hx-swap="innerHTML"
+      autocomplete="off"
+    >
+   
+
+      <input name="username" type="text" placeholder="Username" required />
+      <input name="password" type="password" placeholder="Password" required />
+
+      <div class="forgot">
+        <a href="http://glade.gnome.org">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button type="submit">Sign In</button>
+    </form>
+
+    <div class="alt-buttons">
+      <button hx-get="/oauth/google" hx-target="body">Continuar con Google</button>
+      <button class="facebook" hx-get="/oauth/facebook" hx-target="body">
+        Continuar con Facebook
+      </button>
+    </div>
+  </div>
+</body>
+</html>
