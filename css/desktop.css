@@ -1,0 +1,79 @@
+body {
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow: hidden;
+}
+
+.desktop {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.1);
+    box-sizing: border-box;
+}
+
+.desktop-icon {
+    width: 80px;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    cursor: grab;
+    user-select: none;
+    transition: box-shadow 0.2s, transform 0.2s;
+    padding: 8px 0 4px 0;
+    border-radius: 12px;
+    background: rgba(40,40,40,0.15);
+    box-shadow: 0 2px 8px #0002;
+}
+
+.desktop-icon img {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+    background: #222;
+    box-shadow: 0 2px 8px #0005;
+}
+
+.desktop-icon:active {
+    cursor: grabbing;
+    box-shadow: 0 0 16px #fff5;
+    transform: scale(1.05);
+}
+
+.desktop-icon:hover {
+    background: rgba(60,60,60,0.25);
+    box-shadow: 0 4px 16px #0006;
+}
+
+.taskbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 54px;
+    background: rgba(30,30,30,0.85);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    box-shadow: 0 -2px 16px #0007;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.taskbar .taskbar-item {
+    margin-right: 24px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+    padding: 6px 18px;
+    border-radius: 8px;
+}
+
+.taskbar .taskbar-item:hover {
+    color: #ffd700;
+    background: rgba(255,255,255,0.08);
+}

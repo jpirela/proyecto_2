@@ -1,0 +1,202 @@
+body {
+    background: linear-gradient(135deg, #23272e 0%, #38404a 100%);
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow: hidden;
+}
+
+.gnome-background {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, #23272e 0%, #38404a 100%);
+    z-index: 0;
+}
+
+.gnome-search-container {
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 420px;
+    max-width: 90vw;
+    display: flex;
+    justify-content: center;
+}
+
+/* --- Barra de búsqueda moderna --- */
+.gnome-search-group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 340px;
+  width: 100%;
+  margin: 0 auto;
+}
+.gnome-search-input {
+  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+  width: 100%;
+  height: 45px;
+  padding-left: 2.5rem;
+  box-shadow: 0 0 0 1.5px #2b2c37, 0 0 25px -17px #000;
+  border: 0;
+  border-radius: 12px;
+  background-color: #16171d;
+  outline: none;
+  color: #bdbecb;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: text;
+  z-index: 0;
+  font-size: 1.05rem;
+}
+.gnome-search-input::placeholder {
+  color: #bdbecb;
+}
+.gnome-search-input:hover {
+  box-shadow: 0 0 0 2.5px #2f303d, 0px 0px 25px -15px #000;
+}
+.gnome-search-input:active {
+  transform: scale(0.98);
+}
+.gnome-search-input:focus {
+  box-shadow: 0 0 0 2.5px #2f303d;
+}
+.gnome-search-icon {
+  position: absolute;
+  left: 1rem;
+  fill: #bdbecb;
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gnome-apps-grid {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    width: 80vw;
+    min-height: 60vh;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.gnome-app-icon {
+    pointer-events: auto;
+    margin: 32px 36px;
+    text-align: center;
+    color: #f8f8fa;
+    cursor: grab;
+    user-select: none;
+    transition: box-shadow 0.3s, transform 0.2s, background 0.3s;
+    background: rgba(40, 40, 60, 0.45);
+    border-radius: 18px;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.18);
+    padding: 18px 10px 10px 10px;
+    min-width: 90px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1.5px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(2px);
+}
+.gnome-app-icon:hover {
+    background: rgba(60, 60, 90, 0.65);
+    box-shadow: 0 8px 24px 0 #00bcd455, 0 4px 16px 0 rgba(0,0,0,0.22);
+    transform: scale(1.08);
+}
+.gnome-app-icon-img img, .gnome-dock-btn img {
+    width: 60px;
+    height: 60px;
+    display: block;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.10);
+    box-shadow: 0 2px 8px #0005;
+    padding: 10px;
+    object-fit: contain;
+    transition: box-shadow 0.2s, filter 0.2s;
+}
+.gnome-app-label {
+    font-size: 1.05rem;
+    margin-top: 2px;
+    color: #f8f8fa;
+    text-shadow: 0 1px 2px #0006;
+}
+
+.gnome-dock {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    background: rgba(30, 30, 40, 0.85);
+    border-radius: 22px;
+    box-shadow: 0 4px 24px #0005;
+    padding: 8px 24px;
+    display: flex;
+    gap: 18px;
+    z-index: 20;
+}
+.gnome-dock-btn {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    padding: 8px;
+    transition: background 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+.gnome-dock-btn img {
+    width: 36px;
+    height: 36px;
+    margin: 0;
+    padding: 6px;
+}
+.gnome-dock-btn:hover {
+    background: #00bcd4;
+    box-shadow: 0 2px 12px #00bcd455;
+}
+
+/* --- Fondo de pantalla moderno tipo GNOME --- */
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  --s: 200px; /* control the size */
+  --c1: #1d1d1d;
+  --c2: #4e4f51;
+  --c3: #3c3c3c;
+  background: repeating-conic-gradient(
+        from 30deg,
+        #0000 0 120deg,
+        var(--c3) 0 180deg
+      )
+      calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
+    repeating-conic-gradient(
+      from 30deg,
+      var(--c1) 0 60deg,
+      var(--c2) 0 120deg,
+      var(--c3) 0 180deg
+    );
+  background-size: var(--s) calc(var(--s) * 0.577);
+}
+
+@media (max-width: 700px) {
+    .gnome-apps-grid {
+        width: 98vw;
+    }
+    .gnome-search-container {
+        width: 98vw;
+    }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Escritorio GNOME</title>
+  <link rel="stylesheet" href="/css/desktop.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background: url('/icons/fondo.jpg') center/cover no-repeat; }
+    .search-bar { position: fixed; top: 0; left: 0; right: 0; height: 50px; backdrop-filter: blur(8px); display: flex; align-items: center; padding: 0 16px; z-index: 10; }
+    .search-bar input { width: 100%; max-width: 400px; height: 32px; padding: 0 8px; border: none; border-radius: 4px; font-size: 14px; }
+    .desktop { display: grid; grid-template-columns: repeat(3, 120px); grid-auto-rows: 120px; grid-gap: 24px; padding-top: 80px; padding-left: 40px; width: calc(100% - 80px); height: calc(100% - 140px); }
+    .desktop-icon { display: flex; flex-direction: column; align-items: center; text-align: center; color: #eee; text-shadow: 0 1px 2px rgba(0,0,0,0.7); cursor: pointer; transition: transform .1s ease-in-out; }
+    .desktop-icon:hover { transform: scale(1.1); }
+    .desktop-icon img { width: 64px; height: 64px; margin-bottom: 8px; border-radius: 10px; background: #222; box-shadow: 0 2px 8px #0005; }
+    .desktop-icon div { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100px; }
+    .taskbar { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; background: rgba(0,0,0,0.4); padding: 8px 16px; border-radius: 12px; backdrop-filter: blur(8px); z-index: 10; }
+    .taskbar .taskbar-item { margin: 0 8px; width: 40px; height: 40px; transition: transform .1s ease; }
+    .taskbar .taskbar-item:hover { transform: scale(1.3); }
+  </style>
+</head>
+<body>
+  <!-- Search bar -->
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar aplicaciones..." id="searchInput">
+  </div>
+  <!-- Iconos del escritorio -->
+  <div class="desktop" id="desktopGrid">
+    {% for item in items %}
+    <div class="desktop-icon">
+      <img src="/icons/{{ item.icon_url }}" alt="{{ item.name }}">
+      <div>{{ item.name }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  <!-- Dock inferior -->
+  <div class="taskbar">
+    <div class="taskbar-item"><img src="/icons/browser.png" alt="Navegador" width="32"></div>
+    <div class="taskbar-item"><img src="/icons/folder.png" alt="Archivos" width="32"></div>
+    <div class="taskbar-item"><img src="/icons/settings.png" alt="Ajustes" width="32"></div>
+    <div class="taskbar-item"><img src="/icons/user.png" alt="Usuario" width="32"></div>
+  </div>
+  <script src="/js/drag.js"></script>
+  <script>
+    // Búsqueda de iconos en el escritorio
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const value = e.target.value.toLowerCase();
+      document.querySelectorAll('.desktop .desktop-icon').forEach(icon => {
+        const name = icon.querySelector('div').textContent.toLowerCase();
+        icon.style.display = name.includes(value) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
+<!-- Archivo vacío para evitar que Flask sirva una versión antigua. El frontend real está en /frontend/index.html -->

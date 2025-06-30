@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escritorio Gnome</title>
+    <link rel="stylesheet" href="css/desktop.css">
+</head>
+<body>
+    <div class="container"></div>
+    <div class="gnome-search-container">
+        <div class="gnome-search-group">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="gnome-search-icon">
+                <g>
+                    <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                </g>
+            </svg>
+            <input id="gnome-search" class="gnome-search-input" type="search" placeholder="Escribir para buscar..." name="searchbar" />
+        </div>
+    </div>
+    <div class="gnome-apps-grid" id="desktop"></div>
+    <div class="gnome-dock">
+        <button class="gnome-dock-btn"><img src="icons/browser.svg" alt="Navegador"></button>
+        <button class="gnome-dock-btn"><img src="icons/folder.svg" alt="Archivos"></button>
+        <button class="gnome-dock-btn"><img src="icons/terminal.svg" alt="Terminal"></button>
+        <button class="gnome-dock-btn"><img src="icons/settings.svg" alt="Configuración"></button>
+        <button class="gnome-dock-btn"><img src="icons/user.svg" alt="Usuario"></button>
+    </div>
+    <script>
+    // Cargar iconos dinámicamente desde el backend
+    fetch('/api/icons')
+        .then(res => res.json())
+        .then(iconos => {
+            const nombres = {
+                'browser.svg': 'Navegador',
+                'doc.svg': 'Documentos',
+                'folder.svg': 'Archivos',
+                'image.svg': 'Imágenes',
+                'menu.svg': 'Menú',
+                'settings.svg': 'Configuración',
+                'terminal.svg': 'Terminal',
+                'user.svg': 'Usuario'
+            };
+            const desktop = document.getElementById('desktop');
+            iconos.forEach(icono => {
+                const div = document.createElement('div');
+                div.className = 'desktop-icon gnome-app-icon';
+                div.innerHTML = `<div class='gnome-app-icon-img'><img src="icons/${icono}" alt="${icono}"></div><div class='gnome-app-label'>${nombres[icono] || icono}</div>`;
+                // Hacer icono arrastrable
+                div.style.position = 'absolute';
+                div.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+                div.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+                let offsetX, offsetY, isDragging = false;
+                div.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    offsetX = e.clientX - div.offsetLeft;
+                    offsetY = e.clientY - div.offsetTop;
+                    div.style.zIndex = 1000;
+                });
+                document.addEventListener('mousemove', function(e) {
+                    if (isDragging) {
+                        div.style.left = (e.clientX - offsetX) + 'px';
+                        div.style.top = (e.clientY - offsetY) + 'px';
+                    }
+                });
+                document.addEventListener('mouseup', function() {
+                    isDragging = false;
+                    div.style.zIndex = '';
+                });
+                desktop.appendChild(div);
+            });
+        });
+    </script>
+</body>
+</html>

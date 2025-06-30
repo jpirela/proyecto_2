@@ -1,0 +1,14 @@
+{
+  "python.pythonPath": "${workspaceFolder}/venv/Scripts/python.exe",
+  "sqltools.connections": [
+    {
+      "name": "GNOME-DB",
+      "driver": "MySQL",
+      "server": "127.0.0.1",
+      "port": 3306,
+      "database": "gnomedesktop",
+      "username": "tu_usuario",
+      "password": "tu_contraseña"
+    }
+  ]
+}
