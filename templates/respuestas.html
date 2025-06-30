@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Respuestas recibidas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>📋 Respuestas recibidas</h2>
+
+    <div style="text-align:center; margin-bottom:20px;">
+        <a href="{{ url_for('index') }}" class="btn">
+            ← Volver al formulario
+        </a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Mensaje</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in respuestas %}
+            <tr>
+                <td>{{ r.nombre }}</td>
+                <td>{{ r.correo }}</td>
+                <td>{{ r.mensaje }}</td>
+                <td>{{ r.fecha_envio }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

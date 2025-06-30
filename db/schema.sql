@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS formulario_db
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+USE formulario_db;
+
+CREATE TABLE persona (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo VARCHAR(150) NOT NULL,
+    mensaje TEXT,
+    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

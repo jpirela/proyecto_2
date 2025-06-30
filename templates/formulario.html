@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario simple</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+</head>
+<body>
+    <h2>Formulario de contacto</h2>
+
+    <form hx-post="/enviar" hx-target="#respuesta" hx-swap="innerHTML">
+        <label>
+            Nombre:<br>
+            <input type="text" name="nombre" required>
+        </label>
+        <label>
+            Correo:<br>
+            <input type="email" name="correo" required>
+        </label>
+        <label>
+            Mensaje:<br>
+            <textarea name="mensaje" required></textarea>
+        </label>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <!-- Aquí HTMX inyecta la respuesta -->
+    <div id="respuesta"></div>
+
+    <div style="text-align:center; margin-top:30px;">
+        <a href="{{ url_for('ver_respuestas') }}" class="btn">
+            📋 Ver todas las respuestas
+        </a>
+    </div>
+</body>
+</html>
