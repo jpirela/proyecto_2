@@ -1,148 +1,89 @@
-# TodoList
+# 🔐 Kalypso Auth
 
-**Descripción**:
-TodoList es una aplicación para gestionar tareas de manera eficiente, con una API REST creada en **Java Spring Boot** que utiliza **PostgreSQL**, un frontend en **HTML**, **CSS** con **SASS**, y **JavaScript**, y una versión de escritorio construida con **Python** y **Glade** para la interfaz gráfica.
+Sistema de autenticación web desarrollado con **Flask**, **PostgreSQL**, **SQLAlchemy** y **HTMX**, enfocado en el registro y acceso de usuarios con una interfaz limpia, validaciones seguras y un backend modular y escalable.
 
-## Tecnologías utilizadas
+---
 
-### Backend
+## 🧩 Tecnologías utilizadas
 
-* **Java** (versión 17)
-* **Spring Boot** para crear la API REST
-* **PostgreSQL** como base de datos
-* **JPA** (Java Persistence API) para interactuar con la base de datos
+- **Python 3** + **Flask** – Framework web ligero
+- **SQLAlchemy** – ORM para modelar la base de datos
+- **PostgreSQL** – Base de datos relacional
+- **HTMX** – Interacción asincrónica sin recarga de página
+- **Werkzeug** – Hash seguro de contraseñas
+- **HTML/CSS** – Frontend semántico y moderno
 
-### Frontend
+---
 
-* **HTML5** para la estructura de la página
-* **CSS3** con **SASS** para los estilos
-* **JavaScript** para la interactividad
+## 📁 Estructura del proyecto
 
-### Aplicación de Escritorio
+kalypso_auth/
+├── app/
+│   ├── __init__.py                 # Inicializa Flask + SQLAlchemy
+│   ├── routes.py                   # Rutas /login y /register
+│   ├── models.py                   # Definición de User y LoginAttempt (SQLAlchemy)
+│   ├── static/
+│   │   └── css/
+│   │       └── styles.css          # Estilos del frontend
+│   └── templates/
+│       ├── layout.html             # Plantilla base
+│       ├── login.html              # Formulario de inicio de sesión con HTMX
+│       └── register.html           # Formulario de registro con HTMX
+├── kalypso_auth.sql                # Script SQL alternativo para crear tablas (opcional)
+├── requirements.txt                # flask, flask_sqlalchemy, werkzeug, psycopg2
+├── run.py                          # Script de arranque del servidor Flask
+└── README.md                       # Documentación del proyecto
 
-* **Python** (versión 3.13)
-* **Glade** para la interfaz gráfica de usuario (UI)
-* **GTK** para la creación de interfaces en aplicaciones de escritorio
 
-## Estructura del proyecto
+---
 
-```
-/proyecto_2
-├── backend/              # API REST con Spring Boot
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/                               # Código fuente Java
-│   │   │   │   └── com/
-│   │   │   │       └── jpirela/                    # Paquete base de la app
-│   │   │   │           └── tuproyecto/
-│   │   │   │               ├── TuProyectoApplication.java # Clase principal de Spring Boot
-│   │   │   │               ├── controller/         # Endpoints REST
-│   │   │   │               ├── model/              # Entidades y DTOs
-│   │   │   │               ├── repository/         # Repositorios de JPA
-│   │   │   │               ├── service/            # Lógica de negocio
-│   │   │   │               └── exception/          # Excepciones personalizadas
-│   │   │   └── resources/                          # Archivos de configuración y estáticos
-│   ├── pom.xml             # Dependencias de Maven
-│   └── README.md           # Documentación del backend
-├── frontend/             # Aplicación web
-│   ├── public/             # Archivos estáticos (HTML, imágenes)
-│   ├── src/                # Código fuente de la app frontend
-│   └── README.md           # Documentación del frontend
-├── desktop-app/          # Aplicación de escritorio con Python y Glade
-│   ├── src/               # Código fuente de la aplicación
-│   ├── assets/            # Recursos estáticos
-│   ├── requirements.txt   # Dependencias de Python
-│   ├── .env.example       # Variables de entorno
-│   └── README.md          # Documentación de la app de escritorio
-```
+## 🛠️ Instalación
 
-## Instalación
+1. **Clona el repositorio:**
 
-### Requisitos previos
 
-* **Java 17** para el backend
-* **Maven** para gestionar dependencias del backend
-* **PostgreSQL** para la base de datos
-* **Python 3.13** para la aplicación de escritorio
-* **Glade** para diseñar la interfaz de usuario del escritorio
+git clone https://github.com/tuusuario/kalypso_auth.git
+cd kalypso_auth
 
-### 1. Clonar el repositorio
+2. **Activa el entorno virtual:**
 
-```bash
-git clone https://github.com/jpirela/proyecto_2.git
-cd proyecto_2
-git checkout ManueDiazTodoList
-```
+python -m venv env
+source env/bin/activate  # o env\Scripts\activate en Windows
 
-### 2. Instalación de dependencias
 
-#### Backend (Java + Spring Boot)
+3. **Instala dependencias:**
 
-```bash
-cd backend
-mvn install
-```
-
-#### Frontend (HTML, CSS, JavaScript)
-
-El frontend no tiene dependencias adicionales, pero puedes servir los archivos estáticos usando un servidor local o desplegarlo.
-
-```bash
-cd frontend
-# Usar un servidor local o abrir index.html directamente
-```
-
-#### Aplicación de Escritorio (Python + Glade)
-
-```bash
-cd desktop-app
 pip install -r requirements.txt
-```
 
-### 3. Configuración de la base de datos
+4. **Configura tu base de datos PostgreSQL:**
 
-1. Crea una base de datos en PostgreSQL llamada `todolist`.
-2. Configura las credenciales en el archivo `application.properties` de Spring Boot.
 
-Ejemplo de configuración en `application.properties`:
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://usuario:contraseña@localhost/kalypso_db'
 
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/todolist
-spring.datasource.username=usuario
-spring.datasource.password=contraseña
-```
 
-### 4. Ejecutar la aplicación
+5. **Crea las tablas desde consola Python:**
 
-#### Backend
+python
+>>> from app import db
+>>> db.create_all()
+>>> exit()
 
-```bash
-cd backend
-mvn spring-boot:run
-```
 
-#### Frontend
+6. **Lanza el servidor:**
 
-Puedes abrir `index.html` directamente en el navegador o servirlo usando un servidor web local.
+python run.py
 
-#### Aplicación de Escritorio
+✨ Funcionalidades
+Registro de usuarios con validación de nombre, email y contraseña
 
-```bash
-cd desktop-app
-python main.py
-```
+Hash de contraseñas seguro con Werkzeug
 
-## Contribuciones
+Inicio de sesión con validación de credenciales
 
-Si deseas contribuir al proyecto, sigue estos pasos:
+Registro automático de intentos de acceso (exitosos y fallidos)
 
-1. Haz un fork del repositorio.
-2. Crea una nueva rama (`git checkout -b feature/mi-nueva-caracteristica`).
-3. Realiza los cambios y asegúrate de que todo funcione correctamente.
-4. Haz un commit de tus cambios (`git commit -am 'Añadir nueva característica'`).
-5. Sube los cambios a tu repositorio (`git push origin feature/mi-nueva-caracteristica`).
-6. Abre un Pull Request en el repositorio principal.
+Interfaz fluida con HTMX (sin recarga de página)
 
-## Licencia
+Validación de username contra inyecciones SQL y datos maliciosos
 
-Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
+Modelo extensible con relaciones entre usuarios e intentos
