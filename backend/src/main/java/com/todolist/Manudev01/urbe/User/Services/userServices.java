@@ -46,13 +46,13 @@ public class userServices {
     public String login(String username, String password) {
         String sql = "SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ?";
         try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            System.out.println(sql);
-            var resultSet = preparedStatement.executeQuery();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+            var resultSet = ps.executeQuery();
             if (resultSet.next()) {
-                return "User found: " + resultSet.getString("usuario");
+                return "Login Succesfully";
+
             } else {
                 System.out.println("User not found.");
                 return "User not found.";

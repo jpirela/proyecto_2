@@ -39,7 +39,25 @@ export async function loginUser(credentials) {
         if (!response.ok) throw new Error('Error al iniciar sesión');
         // Si el backend devuelve texto plano:
         const text = await response.text();
+        console.log(text);
         return text;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function addTask(taskData) {
+    try {
+        const response = await fetch(`${API_BASE}/task/addTask`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(taskData)
+        });
+        if (!response.ok) throw new Error('Error al agregar tarea');
+        return await response.json();
     } catch (error) {
         console.error(error);
         return null;

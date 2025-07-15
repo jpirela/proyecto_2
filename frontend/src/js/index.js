@@ -1,5 +1,6 @@
 import { registerUser } from './api.js';
 import { loginUser } from './api.js';
+import { addTask } from './api.js';
 
 
 // Función para hacer editable el nombre de una pestaña
@@ -57,29 +58,43 @@ document.querySelectorAll('.task p').forEach(hacerEditableTask);
 
 // Añadir nueva tarea
 function agregarNuevaTarea() {
-    const taskDiv = document.createElement('div');
-    taskDiv.className = 'task';
-    taskDiv.innerHTML = `
-        <input type="checkbox" name="taskCheck">
-        <p>Doble click para asignar nombre</p>
-        <div id="taskButtons">
-            <img id="checkTask" src="../public/assets/images/check.png" alt="">
-            <hr>
-            <img id="deleteTask" src="../public/assets/images/trash.png" alt="">
-        </div>
-    `;
+    mostrarModalNombreTarea(function(nombreTarea) {
+        const idPestana = obtenerIdPestanaSeleccionada(); // Implementa esta función según tu lógica
 
-    // Crear el <hr> que irá después de la tarea
-    const hr = document.createElement('hr');
+        // Crear el objeto de la tarea
+        const taskData = {
+            nombre: nombreTarea,
+            idPestana: idPestana
+        };
 
-    // Insertar antes de #addTask
-    const addTaskDiv = document.getElementById('addTask');
-    addTaskDiv.parentNode.insertBefore(taskDiv, addTaskDiv);
-    addTaskDiv.parentNode.insertBefore(hr, addTaskDiv);
+        // Enviar a la API
+        addTask(taskData).then(result => {
+            if (result) {
+                // Crear la tarea en el frontend
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'task';
+                taskDiv.innerHTML = `
+                    <input type="checkbox" name="taskCheck">
+                    <p>${nombreTarea}</p>
+                    <div id="taskButtons">
+                        <img id="checkTask" src="../public/assets/images/check.png" alt="">
+                        <hr>
+                        <img id="deleteTask" src="../public/assets/images/trash.png" alt="">
+                    </div>
+                `;
+                const hr = document.createElement('hr');
+                const addTaskDiv = document.getElementById('addTask');
+                addTaskDiv.parentNode.insertBefore(taskDiv, addTaskDiv);
+                addTaskDiv.parentNode.insertBefore(hr, addTaskDiv);
 
-    // Hacer el nombre editable al hacer doble clic
-    const taskName = taskDiv.querySelector('p');
-    hacerEditableTask(taskName);
+                // Hacer el nombre editable al hacer doble clic
+                const taskName = taskDiv.querySelector('p');
+                hacerEditableTask(taskName);
+            } else {
+                alert('Error al agregar tarea');
+            }
+        });
+    });
 }
 
 document.querySelector('#addTask img').addEventListener('click', agregarNuevaTarea);
@@ -424,7 +439,10 @@ function mostrarModalLogin() {
 
         if (result && result === "Login exitoso") {
             alert('Sesión iniciada correctamente');
-            document.body.removeChild(modalBg);
+            const modalLogin = document.getElementById('modalLogin');
+            if (modalLogin) {
+                modalLogin.parentNode.removeChild(modalLogin);
+            }
             // Aquí puedes guardar el usuario en localStorage o redirigir, etc.
         } else {
             alert(result || 'Usuario o contraseña incorrectos');
@@ -459,11 +477,135 @@ function acountClick() {
 
 document.addEventListener('DOMContentLoaded', function () {
     acountClick();
+
+    const completedTaskDiv = document.querySelector('.completedTask');
+    if (completedTaskDiv && !completedTaskDiv.querySelector('details')) {
+        const details = document.createElement('details');
+        details.open = true; // Puedes ponerlo en false si prefieres cerrado por defecto
+        const summary = document.createElement('summary');
+        summary.textContent = 'Tareas completadas';
+        const ul = document.createElement('ul');
+        ul.id = 'completedList';
+        ul.style.listStyle = 'none';
+        ul.style.padding = '0';
+        details.appendChild(summary);
+        details.appendChild(ul);
+        completedTaskDiv.appendChild(details);
+    }
 });
 
-// Eliminar tarea y los hr exteriores usando delegación de eventos
+// Delegación para marcar tarea como completada
 document.querySelector('.todoContainer').addEventListener('click', function (e) {
+    if (e.target && e.target.id === 'checkTask') {
+        const taskDiv = e.target.closest('.task');
+        if (taskDiv) {
+            const taskText = taskDiv.querySelector('p').textContent;
+            // Añadir a la lista de completadas
+            const completedList = document.getElementById('completedList');
+            if (completedList) {
+                const li = document.createElement('li');
+                li.textContent = taskText;
+                li.style.color = '#28a745';
+                li.style.marginBottom = '6px';
+                completedList.appendChild(li);
+            }
+            // Eliminar la tarea y su <hr> anterior
+            const prev = taskDiv.previousElementSibling;
+            if (prev && prev.tagName === 'HR') {
+                prev.remove();
+            }
+            taskDiv.remove();
+        }
+    }
+    // Eliminar tarea y los hr exteriores usando delegación de eventos
     if (e.target && e.target.id === 'deleteTask') {
         eliminarTareaYHrs(e.target);
     }
 });
+
+function mostrarModalNombreTarea(callback) {
+    // Evita duplicar el modal
+    if (document.getElementById('modalNombreTarea')) return;
+
+    // Fondo del modal
+    const modalBg = document.createElement('div');
+    modalBg.id = 'modalNombreTarea';
+    modalBg.style.position = 'fixed';
+    modalBg.style.top = '0';
+    modalBg.style.left = '0';
+    modalBg.style.width = '100vw';
+    modalBg.style.height = '100vh';
+    modalBg.style.background = 'rgba(0,0,0,0.5)';
+    modalBg.style.display = 'flex';
+    modalBg.style.alignItems = 'center';
+    modalBg.style.justifyContent = 'center';
+    modalBg.style.zIndex = '1000';
+
+    // Contenido del modal
+    const modalContent = document.createElement('div');
+    modalContent.style.background = '#242424';
+    modalContent.style.padding = '30px 40px';
+    modalContent.style.borderRadius = '12px';
+    modalContent.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+    modalContent.style.display = 'flex';
+    modalContent.style.flexDirection = 'column';
+    modalContent.style.alignItems = 'center';
+
+    // Título
+    const titulo = document.createElement('h2');
+    titulo.textContent = 'Nombre de la tarea';
+    titulo.style.color = '#fff';
+    titulo.style.marginBottom = '20px';
+    modalContent.appendChild(titulo);
+
+    // Input para el nombre
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Escribe el nombre de la tarea';
+    input.style.marginBottom = '20px';
+    input.style.padding = '8px';
+    input.style.borderRadius = '6px';
+    input.style.border = '1px solid #ccc';
+    input.style.width = '200px';
+    input.style.color = '#fff';
+    input.style.background = '#333';
+    modalContent.appendChild(input);
+
+    // Botón aceptar
+    const btnAceptar = document.createElement('button');
+    btnAceptar.textContent = 'Aceptar';
+    btnAceptar.style.color = '#fff';
+    btnAceptar.style.background = '#007bff';
+    btnAceptar.style.border = 'none';
+    btnAceptar.style.borderRadius = '8px';
+    btnAceptar.style.margin = '10px';
+    btnAceptar.style.padding = '10px 20px';
+    btnAceptar.style.fontSize = '16px';
+    btnAceptar.onclick = function() {
+        const nombreTarea = input.value.trim();
+        if (nombreTarea) {
+            document.body.removeChild(modalBg);
+            callback(nombreTarea); // Aquí solo llamas al callback
+        } else {
+            alert('Por favor ingresa un nombre para la tarea');
+        }
+    };
+    modalContent.appendChild(btnAceptar);
+
+    // Botón cerrar
+    const btnCerrar = document.createElement('button');
+    btnCerrar.textContent = 'Cerrar';
+    btnCerrar.style.color = '#fff';
+    btnCerrar.style.background = '#dc3545';
+    btnCerrar.style.border = 'none';
+    btnCerrar.style.borderRadius = '8px';
+    btnCerrar.style.marginTop = '10px';
+    btnCerrar.style.padding = '6px 16px';
+    btnCerrar.onclick = function() {
+        document.body.removeChild(modalBg);
+    };
+    modalContent.appendChild(btnCerrar);
+
+    modalBg.appendChild(modalContent);
+    document.body.appendChild(modalBg);
+}
